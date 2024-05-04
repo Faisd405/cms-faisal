@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import { Head, Link, router } from '@inertiajs/vue3'
+import { Head } from '@inertiajs/vue3'
 import Banner from '@/Components/Banner.vue'
 import Sidebar from './partials/Sidebar.vue'
 import HeaderLayout from './partials/HeaderLayout.vue'
@@ -13,10 +13,6 @@ defineProps({
         required: true
     }
 })
-
-const logout = () => {
-    router.post(route('logout'))
-}
 </script>
 
 <template>

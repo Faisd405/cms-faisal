@@ -9,13 +9,14 @@
     "rules": {
         // override/add rules settings here, such as:
         // 'vue/no-unused-vars': 'error'
-        "vue/multi-word-component-names": "off"
+        "vue/multi-word-component-names": "off",
+        // 'v-html' directive can lead to XSS attack
+        "vue/no-v-html": "off"
     },
     "globals": {
         "axios": true,
-        "_": true,
         "moment": true,
-        "$": true
+        "route": true
     },
     "ignorePatterns": ["resources/js/vendor/**"]
 }

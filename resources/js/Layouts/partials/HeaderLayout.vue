@@ -420,13 +420,10 @@
 
 <script setup>
 import { ref } from 'vue'
-import { useAuthStore } from '@/store/authStore'
 import { router } from '@inertiajs/vue3'
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue'
 import Dropdown from '@/Components/Dropdown.vue'
 import DropdownLink from '@/Components/DropdownLink.vue'
-
-const authStore = useAuthStore()
 
 defineProps({
     isUseSidebarToggle: {
@@ -453,5 +450,9 @@ const switchToTeam = (team) => {
             preserveState: false
         }
     )
+}
+
+const logout = () => {
+    router.post(route('logout'))
 }
 </script>

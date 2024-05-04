@@ -2,8 +2,14 @@
 import { Link } from '@inertiajs/vue3'
 
 defineProps({
-    href: String,
-    as: String
+    href: {
+        type: String,
+        required: true
+    },
+    as: {
+        type: String,
+        default: 'a'
+    }
 })
 </script>
 
