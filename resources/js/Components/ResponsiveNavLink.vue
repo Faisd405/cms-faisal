@@ -6,7 +6,7 @@ const props = defineProps({
     active: Boolean,
     href: {
         type: String,
-        required: true
+        default: '/'
     },
     as: {
         type: String,

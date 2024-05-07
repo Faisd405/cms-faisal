@@ -4,7 +4,7 @@ import { Link } from '@inertiajs/vue3'
 defineProps({
     href: {
         type: String,
-        required: true
+        default: '/'
     },
     as: {
         type: String,

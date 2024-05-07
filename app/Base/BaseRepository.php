@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class BaseRepository implements BaseRepositoryInterface
 {
-    protected Model $model;
+    protected $model;
 
     protected bool $withTrashed = false;
 
@@ -29,7 +29,6 @@ class BaseRepository implements BaseRepositoryInterface
     }
 
     // Start BaseCore CRUD
-
     public function getAll(array $params = [], bool $withPaginate = true)
     {
         $model = $this->model->query();
@@ -127,5 +126,26 @@ class BaseRepository implements BaseRepositoryInterface
         return $model->delete();
     }
 
+    public function restore(int $id)
+    {
+        $model = $this->model->withTrashed()->find($id);
+
+        if (empty($model)) {
+            return null;
+        }
+
+        return $model->restore();
+    }
+
+    public function forceDelete(int $id)
+    {
+        $model = $this->model->withTrashed()->find($id);
+
+        if (empty($model)) {
+            return null;
+        }
+
+        return $model->forceDelete();
+    }
     // End BaseCore CRUD
 }

@@ -45,7 +45,7 @@ defineProps({
                 </header>
 
                 <!-- Page Content -->
-                <main>
+                <main class="container mx-auto lg:px-2 xl:px-4">
                     <slot />
                 </main>
             </div>

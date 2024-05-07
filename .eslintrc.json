@@ -11,7 +11,8 @@
         // 'vue/no-unused-vars': 'error'
         "vue/multi-word-component-names": "off",
         // 'v-html' directive can lead to XSS attack
-        "vue/no-v-html": "off"
+        "vue/no-v-html": "off",
+        "eslint-plugin-vue/no-v-text-v-html-on-component": "off"
     },
     "globals": {
         "axios": true,

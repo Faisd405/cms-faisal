@@ -2,7 +2,7 @@
 
 namespace App\Base;
 
-use App\Helpers\ResponseHelper;
+use App\Traits\ResponseHelper;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;

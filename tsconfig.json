@@ -5,7 +5,7 @@
         "strict": false,
         "baseUrl": ".",
         "paths": {
-            "@/*": ["resources/*"]
+            "@/*": ["resources/js/*"]
         },
         "types": ["vite/client"]
     },
