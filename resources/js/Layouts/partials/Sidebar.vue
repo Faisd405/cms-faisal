@@ -91,7 +91,7 @@
                     :class="sidebarExpanded ? 'lg:flex' : 'lg:hidden'"
                 >
                     <h4 class="text-end text-sm font-medium text-slate-200">
-                        MASIVE (Manajemen Informasi Inventaris)
+                        CMS Headless Isal
                     </h4>
                 </div>
             </div>
@@ -111,6 +111,14 @@
                     </ul>
 
                     <sidenav-header> Data Master </sidenav-header>
+                    <ul class="mb-3 flex-col space-y-4">
+                        <sidenav-menu-link
+                            icon="ion ion-md-home"
+                            :href="route('content-types.index')"
+                        >
+                            Content Types
+                        </sidenav-menu-link>
+                    </ul>
 
                     <ul class="mb-3 flex-col space-y-4"></ul>
                 </div>

@@ -15,7 +15,15 @@
         @vite(['resources/js/app.js', "resources/js/Pages/{$page['component']}.vue"])
         @inertiaHead
     </head>
-    <body class="font-sans antialiased">
+    <body class="font-inter antialiased">
+        <script>
+            if (localStorage.getItem('sidebar-expanded') == 'true') {
+                document.querySelector('body').classList.add('sidebar-expanded');
+            } else {
+                document.querySelector('body').classList.remove('sidebar-expanded');
+            }
+        </script>
+
         @inertia
     </body>
 </html>

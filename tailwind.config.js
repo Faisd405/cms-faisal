@@ -2,7 +2,7 @@ import defaultTheme from 'tailwindcss/defaultTheme'
 import forms from '@tailwindcss/forms'
 import typography from '@tailwindcss/typography'
 import flowbitePlugin from 'flowbite/plugin'
-import plugin from 'tailwindcss'
+import plugin from 'tailwindcss/plugin'
 
 /** @type {import('tailwindcss').Config} */
 export default {
