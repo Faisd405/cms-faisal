@@ -17,6 +17,10 @@ class ContentTypeFieldService extends BaseService
 
     public function create($data)
     {
+        if ($this->repository->getByName($data['content_type_id'], $data['name'])) {
+            throw new \Exception('Field name already exists');
+        }
+
         $isHaveOrder = isset($data['order']);
         if (!isset($data['order'])) {
             $data['order'] = $this->repository->getMaxOrder($data['content_type_id']) + 1;
@@ -33,6 +37,10 @@ class ContentTypeFieldService extends BaseService
 
     public function update($id, $data)
     {
+        if ($this->repository->getByName($data['content_type_id'], $data['name'], $id)) {
+            throw new \Exception('Field name already exists');
+        }
+
         $isHaveOrder = isset($data['order']);
         if ($isHaveOrder && $data['order'] != $this->repository->find($id)->order) {
             $this->repository->updateOrder($data['content_type_id'], $this->repository->find($id)->order, $id);

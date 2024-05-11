@@ -27,7 +27,7 @@ class ContentTypeFieldController extends BaseController
         return $this->successResponse($createData, 'Field created successfully');
     }
 
-    public function update(Request $request, $contentTypeId, $fieldId)
+    public function update(FieldRequest $request, $contentTypeId, $fieldId)
     {
         $data = $request->all();
         $data['content_type_id'] = $contentTypeId;

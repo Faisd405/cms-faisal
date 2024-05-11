@@ -411,7 +411,6 @@ const submitData = () => {
     }
 
     if (updateId.value !== null && updateId.value !== undefined) {
-        console.log(updateId.value)
         axios
             .put(
                 route('content-types.fields.update', {

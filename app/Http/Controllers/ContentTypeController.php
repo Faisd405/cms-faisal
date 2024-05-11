@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Base\BaseController;
+use App\Http\Requests\ContentType\ContentTypeRequest;
 use App\Services\ContentTypeFieldService;
 use App\Services\ContentTypeService;
 use Illuminate\Http\Request;
@@ -29,11 +30,11 @@ class ContentTypeController extends BaseController
         return $this->dynamicSuccessResponse('ContentType/Form', [], 'inertia');
     }
 
-    public function store(Request $request)
+    public function store(ContentTypeRequest $request)
     {
-        $this->service->create($request->all());
+        $createData = $this->service->create($request->all());
 
-        return $this->dynamicSuccessResponse('content-types.index', [], 'redirect');
+        return $this->dynamicSuccessResponse('content-types.index', $createData, 'redirect');
     }
 
     public function edit($contentTypeId)
@@ -47,11 +48,11 @@ class ContentTypeController extends BaseController
         return $this->dynamicSuccessResponse('ContentType/Form', $data, 'inertia');
     }
 
-    public function update(Request $request, $contentTypeId)
+    public function update(ContentTypeRequest $request, $contentTypeId)
     {
-        $this->service->update($contentTypeId, $request->all());
+        $updatedData = $this->service->update($contentTypeId, $request->all());
 
-        return $this->dynamicSuccessResponse('content-types.index', [], 'redirect');
+        return $this->dynamicSuccessResponse('content-types.index', $updatedData, 'redirect');
     }
 
     public function destroy($contentTypeId)

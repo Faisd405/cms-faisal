@@ -1,10 +1,12 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue'
 import Pagination from '@/Components/Pagination.vue'
+import axios from '@/libs/axios'
 import { FwbModal } from 'flowbite-vue'
 import { ref } from 'vue'
 import PrimaryButton from '@/Components/Button/PrimaryButton.vue'
 import SecondaryButton from '@/Components/Button/SecondaryButton.vue'
+import { router } from '@inertiajs/vue3'
 
 const isShowDeleteModal = ref(false)
 const tempId = ref(null)
@@ -22,7 +24,15 @@ const openDeleteModal = (id) => {
 }
 
 const deleteContentType = () => {
-    console.log('Delete Content Type')
+    axios
+        .delete(`/content-types/${tempId.value}`)
+        .then(() => {
+            isShowDeleteModal.value = false
+            router.reload()
+        })
+        .catch((err) => {
+            console.log(err)
+        })
 }
 </script>
 

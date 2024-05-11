@@ -38,19 +38,20 @@
                 :class="{ 'opacity-25': form.processing }"
                 :disabled="form.processing"
             >
-                Save
+                {{ updateId !== null ? 'Update' : 'Create' }}
             </PrimaryButton>
         </div>
     </form>
 </template>
 
 <script setup>
-import { useForm } from '@inertiajs/vue3'
+import { router, useForm } from '@inertiajs/vue3'
 import InputError from '@/Components/Form/InputError.vue'
 import InputLabel from '@/Components/Form/InputLabel.vue'
 import TextInput from '@/Components/Form/TextInput.vue'
 import PrimaryButton from '@/Components/Button/PrimaryButton.vue'
 import { onBeforeMount, ref } from 'vue'
+import axios from '@/libs/axios'
 
 const updateId = ref(null)
 const form = useForm({
@@ -60,19 +61,28 @@ const form = useForm({
 
 const submitData = () => {
     if (updateId.value !== null) {
-        form.put(route('content-types.update', updateId.value), {
-            errorBag: 'updateContentType',
-            preserveScroll: true,
-            onFinish: () => form.reset()
-        })
+        axios
+            .put(route('content-types.update', updateId.value), form.data())
+            .then(() => {})
+            .catch((err) => {
+                if (err.response.status === 422) {
+                    form.errors = err.response.data.errors
+                }
+            })
+
         return
     }
 
-    form.post(route('content-types.store'), {
-        errorBag: 'createContentType',
-        preserveScroll: true,
-        onFinish: () => form.reset()
-    })
+    axios
+        .post(route('content-types.store'), form.data())
+        .then(() => {
+            router.visit(route('content-types.index'))
+        })
+        .catch((err) => {
+            if (err.response.status === 422) {
+                form.errors = err.response.data.errors
+            }
+        })
 }
 
 const props = defineProps({

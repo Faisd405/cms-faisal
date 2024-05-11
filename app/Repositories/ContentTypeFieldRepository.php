@@ -27,4 +27,14 @@ class ContentTypeFieldRepository extends BaseRepository implements BaseRepositor
 
         return $this->model->where('id', $newId)->update(['order' => $oldOrder]);
     }
+
+    public function getByName($contentTypeId, $name, $id = null)
+    {
+        $query = $this->model->where('content_type_id', $contentTypeId)->where('name', $name);
+        if ($id) {
+            $query->where('id', '!=', $id);
+        }
+
+        return $query->first();
+    }
 }
