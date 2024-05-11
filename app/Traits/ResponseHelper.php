@@ -16,9 +16,9 @@ trait ResponseHelper
 {
     private function responseJson(
         bool $success,
-        string|null $message,
+        ?string $message,
         int $statusCode,
-        string|array|int|null $data = []
+        mixed $data = []
     ) {
         return response()->json([
             'success' => $success,
@@ -28,16 +28,16 @@ trait ResponseHelper
     }
 
     public function successResponse(
-        string|array|int|null $data,
-        string|null $message = null,
+        mixed $data,
+        ?string $message = null,
         int $statusCode = 200
     ) {
         return $this->responseJson(true, $message, $statusCode, $data);
     }
 
     public function errorResponse(
-        string|array|int|null $data,
-        string|null $message = null,
+        mixed $data,
+        ?string $message = null,
         int $statusCode = 400
     ) {
         return $this->responseJson(false, $message, $statusCode, $data);

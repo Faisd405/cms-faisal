@@ -14,4 +14,9 @@ class ContentType extends BaseModel
         'name',
         'description',
     ];
+
+    public function fields()
+    {
+        return $this->hasMany(ContentTypeField::class)->orderBy('order');
+    }
 }

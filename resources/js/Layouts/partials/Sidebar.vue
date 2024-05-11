@@ -13,7 +13,7 @@
         <div
             id="sidebar"
             ref="sidebar"
-            class="no-scrollbar lg:sidebar-expanded:!w-64 absolute left-0 top-0 z-40 flex h-screen w-64 shrink-0 flex-col overflow-y-scroll bg-slate-800 p-4 transition-all duration-200 ease-in-out lg:static lg:left-auto lg:top-auto lg:w-20 lg:translate-x-0 lg:overflow-y-auto 2xl:!w-64"
+            class="no-scrollbar absolute left-0 top-0 z-40 flex h-screen w-64 shrink-0 flex-col overflow-y-scroll bg-slate-800 p-4 transition-all duration-200 ease-in-out lg:static lg:left-auto lg:top-auto lg:w-20 lg:translate-x-0 lg:overflow-y-auto lg:sidebar-expanded:!w-64 2xl:!w-64"
             :class="sidebarOpen ? 'translate-x-0' : '-translate-x-64'"
         >
             <!-- Sidebar header -->
@@ -132,7 +132,7 @@
                     <button @click.prevent="sidebarExpanded = !sidebarExpanded">
                         <span class="sr-only">Expand / collapse sidebar</span>
                         <svg
-                            class="sidebar-expanded:rotate-180 h-6 w-6 fill-current"
+                            class="h-6 w-6 fill-current sidebar-expanded:rotate-180"
                             viewBox="0 0 24 24"
                         >
                             <path

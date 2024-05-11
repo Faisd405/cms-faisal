@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('label');
             $table->string('type');
-            $table->string('validation')->nullable();
+            $table->text('validation')->nullable();
             $table->string('placeholder')->nullable();
             $table->string('default_value')->nullable();
             $table->unsignedInteger('order')->default(0);

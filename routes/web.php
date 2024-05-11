@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ContentTypeController;
+use App\Http\Controllers\ContentTypeFieldController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -27,8 +28,14 @@ Route::middleware([
         Route::get('/', [ContentTypeController::class, 'index'])->name('index');
         Route::get('/create', [ContentTypeController::class, 'create'])->name('create');
         Route::post('/', [ContentTypeController::class, 'store'])->name('store');
-        Route::get('/{contentType}/edit', [ContentTypeController::class, 'edit'])->name('edit');
-        Route::put('/{contentType}', [ContentTypeController::class, 'update'])->name('update');
-        Route::delete('/{contentType}', [ContentTypeController::class, 'destroy'])->name('destroy');
+        Route::get('/{contentTypeId}/edit', [ContentTypeController::class, 'edit'])->name('edit');
+        Route::put('/{contentTypeId}', [ContentTypeController::class, 'update'])->name('update');
+        Route::delete('/{contentTypeId}', [ContentTypeController::class, 'destroy'])->name('destroy');
+
+        Route::group(['prefix' => '{contentTypeId}/fields', 'as' => 'fields.'], function () {
+            Route::post('/', [ContentTypeFieldController::class, 'store'])->name('store');
+            Route::put('/{fieldId}', [ContentTypeFieldController::class, 'update'])->name('update');
+            Route::delete('/{fieldId}', [ContentTypeFieldController::class, 'destroy'])->name('destroy');
+        });
     });
 });

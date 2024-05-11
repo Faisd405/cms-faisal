@@ -5,7 +5,7 @@ namespace App\Base;
 use App\Base\Construct\BaseRepositoryInterface;
 use App\Base\Construct\BaseServiceInterface;
 
-class BaseService implements BaseServiceInterface
+abstract class BaseService implements BaseServiceInterface
 {
     protected $repository;
 

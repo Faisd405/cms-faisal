@@ -3,8 +3,8 @@ import AppLayout from '@/Layouts/AppLayout.vue'
 import Pagination from '@/Components/Pagination.vue'
 import { FwbModal } from 'flowbite-vue'
 import { ref } from 'vue'
-import PrimaryButton from '@/Components/PrimaryButton.vue'
-import SecondaryButton from '@/Components/SecondaryButton.vue'
+import PrimaryButton from '@/Components/Button/PrimaryButton.vue'
+import SecondaryButton from '@/Components/Button/SecondaryButton.vue'
 
 const isShowDeleteModal = ref(false)
 const tempId = ref(null)

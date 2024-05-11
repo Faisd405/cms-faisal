@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Base\BaseController;
+use App\Services\ContentTypeFieldService;
 use App\Services\ContentTypeService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -35,23 +36,27 @@ class ContentTypeController extends BaseController
         return $this->dynamicSuccessResponse('content-types.index', [], 'redirect');
     }
 
-    public function edit($id)
+    public function edit($contentTypeId)
     {
-        $data['item'] = $this->service->find($id);
+        $data['item'] = $this->service->find($contentTypeId);
+
+        if (!$data['item']) {
+            return $this->dynamicErrorResponse('404', [], 'inertia');
+        }
 
         return $this->dynamicSuccessResponse('ContentType/Form', $data, 'inertia');
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $contentTypeId)
     {
-        $this->service->update($id, $request->all());
+        $this->service->update($contentTypeId, $request->all());
 
         return $this->dynamicSuccessResponse('content-types.index', [], 'redirect');
     }
 
-    public function destroy($id)
+    public function destroy($contentTypeId)
     {
-        $this->service->delete($id);
+        $this->service->delete($contentTypeId);
 
         return $this->dynamicSuccessResponse('content-types.index', [], 'redirect');
     }

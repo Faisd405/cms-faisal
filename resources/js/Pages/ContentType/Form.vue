@@ -10,58 +10,30 @@
                         Content Types
                     </Link>
                     /
-                    <span v-if="updateId != null"> Update </span>
+                    <span v-if="contentTypes.id != null"> Update </span>
                     <span v-else> Create </span>
                 </h2>
             </div>
         </template>
 
         <div class="mt-8 md:col-span-2">
-            <form @submit.prevent="submitData">
-                <div
-                    class="mb-4 bg-white px-4 py-5 shadow sm:rounded-tl-md sm:rounded-tr-md sm:p-6"
-                >
-                    <div class="grid grid-cols-6 gap-6">
-                        <div class="col-span-6 sm:col-span-4">
-                            <InputLabel for="name" value="Name" />
-                            <TextInput
-                                id="name"
-                                v-model="form.name"
-                                type="text"
-                                class="mt-1 block w-full"
-                            />
-                            <InputError
-                                :message="form.errors.name"
-                                class="mt-2"
-                            />
-                        </div>
-                        <div class="col-span-6 sm:col-span-4">
-                            <InputLabel for="description" value="Description" />
-                            <TextInput
-                                id="description"
-                                v-model="form.description"
-                                type="text"
-                                class="mt-1 block w-full"
-                            />
-                            <InputError
-                                :message="form.errors.description"
-                                class="mt-2"
-                            />
-                        </div>
-                    </div>
-                </div>
+            <FormContentType :item="contentTypes" />
+        </div>
 
-                <div
-                    class="flex justify-end bg-white px-4 py-2 shadow sm:rounded-tl-md sm:rounded-tr-md sm:px-6 sm:py-4"
-                >
-                    <PrimaryButton
-                        :class="{ 'opacity-25': form.processing }"
-                        :disabled="form.processing"
-                    >
-                        Save
-                    </PrimaryButton>
-                </div>
-            </form>
+        <div v-if="contentTypes.id != null">
+            <hr class="mt-8 border border-slate-600" />
+
+            <div class="mt-8 md:col-span-2">
+                <FormField
+                    :content-type="contentTypes"
+                    :content-type-fields="
+                        contentTypes.fields ? contentTypes.fields : []
+                    "
+                    @delete-field="deleteField"
+                    @update-field="updateField"
+                    @create-field="createField"
+                />
+            </div>
         </div>
     </AppLayout>
 </template>
@@ -69,35 +41,11 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue'
 import { Link } from '@inertiajs/vue3'
-import { useForm } from '@inertiajs/vue3'
-import InputError from '@/Components/InputError.vue'
-import InputLabel from '@/Components/InputLabel.vue'
-import TextInput from '@/Components/TextInput.vue'
-import PrimaryButton from '@/Components/PrimaryButton.vue'
+import FormContentType from '@/Components/Partials/ContentType/FormContentType.vue'
+import FormField from '@/Components/Partials/ContentType/FormField.vue'
 import { onBeforeMount, ref } from 'vue'
 
-const updateId = ref(null)
-const form = useForm({
-    name: '',
-    description: ''
-})
-
-const submitData = () => {
-    if (updateId.value !== null) {
-        form.put(route('content-types.update', updateId.value), {
-            errorBag: 'updateContentType',
-            preserveScroll: true,
-            onFinish: () => form.reset()
-        })
-        return
-    }
-
-    form.post(route('content-types.store'), {
-        errorBag: 'createContentType',
-        preserveScroll: true,
-        onFinish: () => form.reset()
-    })
-}
+const contentTypes = ref([])
 
 const props = defineProps({
     item: {
@@ -110,11 +58,25 @@ const props = defineProps({
     }
 })
 
+const deleteField = (fieldId) => {
+    contentTypes.value.fields = contentTypes.value.fields.filter(
+        (item) => item.id !== fieldId
+    )
+}
+
+const updateField = (field) => {
+    const index = contentTypes.value.fields.findIndex(
+        (item) => item.id === field.id
+    )
+
+    contentTypes.value.fields[index] = field
+}
+
+const createField = (field) => {
+    contentTypes.value.fields.push(field)
+}
+
 onBeforeMount(() => {
-    if (props.item.id !== null) {
-        updateId.value = props.item.id
-        form.name = props.item.name
-        form.description = props.item.description
-    }
+    contentTypes.value = props.item
 })
 </script>

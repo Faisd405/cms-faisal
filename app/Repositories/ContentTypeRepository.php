@@ -12,4 +12,11 @@ class ContentTypeRepository extends BaseRepository implements BaseRepositoryInte
     {
         parent::__construct(new ContentType);
     }
+
+    public function find(int $id, array $params = [])
+    {
+        $params['with'] = ['fields'];
+
+        return parent::find($id, $params);
+    }
 }

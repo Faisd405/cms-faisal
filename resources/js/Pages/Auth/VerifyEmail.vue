@@ -2,8 +2,8 @@
 import { computed } from 'vue'
 import { Head, Link, useForm } from '@inertiajs/vue3'
 import AuthenticationCard from '@/Components/AuthenticationCard.vue'
-import AuthenticationCardLogo from '@/Components/AuthenticationCardLogo.vue'
-import PrimaryButton from '@/Components/PrimaryButton.vue'
+import AuthenticationCardLogo from '@/Components/Icon/AuthenticationCardLogo.vue'
+import PrimaryButton from '@/Components/Button/PrimaryButton.vue'
 
 const props = defineProps({
     status: {
