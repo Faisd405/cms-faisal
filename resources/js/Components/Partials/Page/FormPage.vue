@@ -50,7 +50,7 @@
                 :class="{ 'opacity-25': form.processing }"
                 :disabled="form.processing"
             >
-                {{ updateId !== null ? 'Update' : 'Create' }}
+                {{ updateId !== null ? 'Update' : 'Create' }} Page
             </PrimaryButton>
         </div>
     </form>

@@ -2,6 +2,7 @@
 
 namespace App\Models\Page;
 
+use App\Models\ContentType\ContentType;
 use App\Models\SeoMeta;
 use App\Traits\Model\UseTrackUserActions;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

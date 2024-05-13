@@ -41,9 +41,11 @@ class PageController extends BaseController
         return $this->dynamicSuccessResponse('page.index', $createData, 'redirect');
     }
 
-    public function edit($PageId)
+    public function edit($pageId)
     {
-        $data['item'] = $this->service->find($PageId);
+        $data['item'] = $this->service->find($pageId, [
+            'with' => ['contentType.fields'],
+        ]);
 
         if (!$data['item']) {
             return $this->dynamicErrorResponse('404', [], 'inertia');
@@ -54,16 +56,16 @@ class PageController extends BaseController
         return $this->dynamicSuccessResponse('Page/Form', $data, 'inertia');
     }
 
-    public function update(PageRequest $request, $PageId)
+    public function update(PageRequest $request, $pageId)
     {
-        $updatedData = $this->service->update($PageId, $request->all());
+        $updatedData = $this->service->update($pageId, $request->all());
 
         return $this->dynamicSuccessResponse('content-types.index', $updatedData, 'redirect');
     }
 
-    public function destroy($PageId)
+    public function destroy($pageId)
     {
-        $this->service->delete($PageId);
+        $this->service->delete($pageId);
 
         return $this->dynamicSuccessResponse('content-types.index', [], 'redirect');
     }
