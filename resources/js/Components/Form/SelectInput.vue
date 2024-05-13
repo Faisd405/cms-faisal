@@ -3,10 +3,10 @@ import { onMounted, ref } from 'vue'
 
 const props = defineProps({
     modelValue: {
-        type: String,
+        type: [String, Number],
         default: ''
     },
-    option: {
+    options: {
         type: Array,
         default: () => []
     }
@@ -49,10 +49,9 @@ function validateValue(value) {
         @change="updateValue($event.target.value)"
     >
         <option value="">Select an option</option>
-        <option v-for="item in option" :key="item.value" :value="item.value">
+        <option v-for="item in options" :key="item.value" :value="item.value">
             {{ item.text }}
         </option>
-
         <slot></slot>
     </select>
 </template>

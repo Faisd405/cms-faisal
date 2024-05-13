@@ -159,9 +159,7 @@
                             v-model="form.name"
                             type="text"
                             class="mt-1 block w-full"
-                            @change="
-                                form.name = transformSlug($event.target.value)
-                            "
+                            @change="transformNameField($event.target.value)"
                         />
                         <InputError :message="form.errors.name" class="mt-2" />
                     </div>
@@ -172,6 +170,7 @@
                             v-model="form.label"
                             type="text"
                             class="mt-1 block w-full"
+                            @input="transformNameField($event.target.value)"
                         />
                         <InputError :message="form.errors.label" class="mt-2" />
                     </div>
@@ -181,7 +180,7 @@
                             id="type"
                             v-model="form.type"
                             class="mt-1 block w-full"
-                            :option="typeField"
+                            :options="typeField"
                         >
                         </SelectInput>
                         <InputError :message="form.errors.type" class="mt-2" />
@@ -350,6 +349,10 @@ const showContentTypeFieldModal = (fieldData = null) => {
     }
 
     isShowAddFieldModal.value = true
+}
+
+const transformNameField = (value) => {
+    form.name = transformSlug(value)
 }
 
 const showDeleteFieldModal = (fieldDataId) => {

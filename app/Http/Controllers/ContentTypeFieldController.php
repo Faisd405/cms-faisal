@@ -4,9 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Base\BaseController;
 use App\Http\Requests\ContentType\FieldRequest;
-use App\Services\ContentTypeFieldService;
-use Illuminate\Http\Request;
-use Inertia\Inertia;
+use App\Services\ContentType\ContentTypeFieldService;
 
 class ContentTypeFieldController extends BaseController
 {

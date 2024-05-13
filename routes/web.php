@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ContentTypeController;
 use App\Http\Controllers\ContentTypeFieldController;
+use App\Http\Controllers\PageController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -37,5 +38,14 @@ Route::middleware([
             Route::put('/{fieldId}', [ContentTypeFieldController::class, 'update'])->name('update');
             Route::delete('/{fieldId}', [ContentTypeFieldController::class, 'destroy'])->name('destroy');
         });
+    });
+
+    Route::group(['prefix' => 'pages', 'as' => 'pages.'], function () {
+        Route::get('/', [PageController::class, 'index'])->name('index');
+        Route::get('/create', [PageController::class, 'create'])->name('create');
+        Route::post('/', [PageController::class, 'store'])->name('store');
+        Route::get('/{pageId}/edit', [PageController::class, 'edit'])->name('edit');
+        Route::put('/{pageId}', [PageController::class, 'update'])->name('update');
+        Route::delete('/{pageId}', [PageController::class, 'destroy'])->name('destroy');
     });
 });

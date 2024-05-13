@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Repositories\ContentType;
 
 use App\Base\BaseRepository;
 use App\Base\Construct\BaseRepositoryInterface;

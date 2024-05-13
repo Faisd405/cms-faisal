@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\ContentType;
 
 use App\Base\BaseService;
-use App\Base\Construct\BaseServiceInterface;
-use App\Repositories\ContentTypeFieldRepository;
+use App\Repositories\ContentType\ContentTypeFieldRepository;
 
 class ContentTypeFieldService extends BaseService
 {
@@ -17,6 +16,8 @@ class ContentTypeFieldService extends BaseService
 
     public function create($data)
     {
+        $data['name'] = str()->slug($data['name']);
+
         if ($this->repository->getByName($data['content_type_id'], $data['name'])) {
             throw new \Exception('Field name already exists');
         }
@@ -37,6 +38,8 @@ class ContentTypeFieldService extends BaseService
 
     public function update($id, $data)
     {
+        $data['name'] = str()->slug($data['name']);
+
         if ($this->repository->getByName($data['content_type_id'], $data['name'], $id)) {
             throw new \Exception('Field name already exists');
         }

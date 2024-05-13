@@ -119,6 +119,14 @@
                             Content Types
                         </sidenav-menu-link>
                     </ul>
+                    <ul class="mb-3 flex-col space-y-4">
+                        <sidenav-menu-link
+                            icon="ion ion-md-home"
+                            :href="route('pages.index')"
+                        >
+                            Page
+                        </sidenav-menu-link>
+                    </ul>
 
                     <ul class="mb-3 flex-col space-y-4"></ul>
                 </div>

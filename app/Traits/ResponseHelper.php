@@ -9,8 +9,8 @@ use Illuminate\Http\JsonResponse;
  *
  * @method JsonResponse successResponse($data, $message = null, $statusCode = 200)
  * @method JsonResponse errorResponse($data, $message = null, $statusCode = 400)
- * @method JsonResponse dynamicSuccessResponse($view, $data, $typeView = 'blade', $message = null, $statusCode = 200)
- * @method JsonResponse dynamicErrorResponse($view, $data, $typeView = 'blade', $message = null, $statusCode = 400)
+ * @method mixed dynamicSuccessResponse($view, $data, $typeView = 'blade', $message = null, $statusCode = 200)
+ * @method mixed dynamicErrorResponse($view, $data, $typeView = 'blade', $message = null, $statusCode = 400)
  */
 trait ResponseHelper
 {
