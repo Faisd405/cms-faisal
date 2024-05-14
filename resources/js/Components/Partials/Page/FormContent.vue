@@ -12,12 +12,12 @@
                 <InputLabel :for="itemField.name" :value="itemField.label" />
                 <TextareaInput
                     v-if="itemField.type === 'textarea'"
-                    v-model="form[itemField.name]"
+                    v-model="form[itemField.name].value"
                     class="mt-1 block w-full"
                 />
                 <TextInput
                     v-else
-                    v-model="form[itemField.name]"
+                    v-model="form[itemField.name].value"
                     :type="itemField.type"
                     class="mt-1 block w-full"
                 />
@@ -43,8 +43,9 @@ import TextareaInput from '@/Components/Form/TextareaInput.vue'
 import TextInput from '@/Components/Form/TextInput.vue'
 import InputLabel from '@/Components/Form/InputLabel.vue'
 import PrimaryButton from '@/Components/Button/PrimaryButton.vue'
+import axios from '@/libs/axios'
 
-const contentTypeFields = ref([])
+const contentTypeFields = ref({})
 
 const form = ref({})
 
@@ -62,14 +63,33 @@ const props = defineProps({
 })
 
 function submitData() {
-    console.log(form.value)
+    isProcessingSubmit.value = true
+    axios
+        .post(`/pages/${props.item.id}/content`, { page_content: form.value })
+        .then((res) => {
+            console.log(res)
+            isProcessingSubmit.value = false
+        })
+        .catch(() => {
+            isProcessingSubmit.value = false
+        })
 }
 
 onBeforeMount(() => {
     contentTypeFields.value = props.item.content_type.fields
 
     contentTypeFields.value.forEach((item) => {
-        form.value[item.name] = ''
+        form.value[item.name] = {
+            value: '',
+            page_id: props.item.id,
+            content_type_field_id: item.id
+        }
     })
+
+    if (props.item.page_contents && props.item.page_contents.length > 0) {
+        props.item.page_contents.forEach((item) => {
+            form.value[item.content_type_field.name].value = item.value
+        })
+    }
 })
 </script>

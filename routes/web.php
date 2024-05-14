@@ -41,6 +41,8 @@ Route::middleware([
     });
 
     Route::group(['prefix' => 'pages', 'as' => 'pages.'], function () {
+        Route::match(['post', 'put'], '/{pageId}/content', [PageController::class, 'updateContent'])->name('update-content');
+
         Route::get('/', [PageController::class, 'index'])->name('index');
         Route::get('/create', [PageController::class, 'create'])->name('create');
         Route::post('/', [PageController::class, 'store'])->name('store');

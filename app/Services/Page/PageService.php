@@ -14,4 +14,9 @@ class PageService extends BaseService implements BaseServiceInterface
     {
         $this->repository = $repository;
     }
+
+    public function updateContent($pageId, $content)
+    {
+        return $this->repository->updateContent($pageId, $content);
+    }
 }

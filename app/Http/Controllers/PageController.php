@@ -44,7 +44,7 @@ class PageController extends BaseController
     public function edit($pageId)
     {
         $data['item'] = $this->service->find($pageId, [
-            'with' => ['contentType.fields'],
+            'with' => ['contentType.fields', 'pageContents.contentTypeField'],
         ]);
 
         if (!$data['item']) {
@@ -68,5 +68,12 @@ class PageController extends BaseController
         $this->service->delete($pageId);
 
         return $this->dynamicSuccessResponse('content-types.index', [], 'redirect');
+    }
+
+    public function updateContent(Request $request, $pageId)
+    {
+        $updatedData = $this->service->updateContent($pageId, $request->all());
+
+        return $this->dynamicSuccessResponse('content-types.index', $updatedData, 'redirect');
     }
 }

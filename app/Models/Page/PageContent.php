@@ -14,7 +14,6 @@ class PageContent extends Model
         'page_id',
         'content_type_field_id',
         'localization_id',
-        'title',
         'value',
         'order',
     ];
