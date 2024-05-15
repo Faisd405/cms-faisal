@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('label');
             $table->string('type');
+            $table->text('options')->nullable();
             $table->text('validation')->nullable();
             $table->string('placeholder')->nullable();
             $table->string('default_value')->nullable();

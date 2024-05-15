@@ -153,17 +153,6 @@
             <template #body>
                 <div class="grid grid-cols-6 gap-6">
                     <div class="col-span-3">
-                        <InputLabel for="name" value="Name (Slug)" />
-                        <TextInput
-                            id="name"
-                            v-model="form.name"
-                            type="text"
-                            class="mt-1 block w-full"
-                            @change="transformNameField($event.target.value)"
-                        />
-                        <InputError :message="form.errors.name" class="mt-2" />
-                    </div>
-                    <div class="col-span-3">
                         <InputLabel for="label" value="Label" />
                         <TextInput
                             id="label"
@@ -174,6 +163,17 @@
                         />
                         <InputError :message="form.errors.label" class="mt-2" />
                     </div>
+                    <div class="col-span-3">
+                        <InputLabel for="name" value="Name (Slug)" />
+                        <TextInput
+                            id="name"
+                            v-model="form.name"
+                            type="text"
+                            class="mt-1 block w-full"
+                            @change="transformNameField($event.target.value)"
+                        />
+                        <InputError :message="form.errors.name" class="mt-2" />
+                    </div>
                     <div class="col-span-6">
                         <InputLabel for="type" value="Type" />
                         <SelectInput
@@ -181,6 +181,7 @@
                             v-model="form.type"
                             class="mt-1 block w-full"
                             :options="typeField"
+                            @change="changeFormType($event.target.value)"
                         >
                         </SelectInput>
                         <InputError :message="form.errors.type" class="mt-2" />
@@ -210,6 +211,49 @@
                             :message="form.errors.default_value"
                             class="mt-2"
                         />
+                    </div>
+                    <div v-if="isHaveOptions" class="col-span-6">
+                        <InputLabel for="options" value="Options" />
+                        <div
+                            v-for="(option, key) in form.options"
+                            :key="option"
+                            class="grid grid-cols-7 gap-6"
+                        >
+                            <div class="col-span-3">
+                                <TextInput
+                                    id="options"
+                                    v-model="form.options[key]['label']"
+                                    type="text"
+                                    class="mt-1 block w-full"
+                                    placeholder="Label"
+                                />
+                            </div>
+                            <div class="col-span-3">
+                                <TextareaInput
+                                    v-model="form.options[key]['value']"
+                                    class="mt-1 block w-full"
+                                    placeholder="Value"
+                                />
+                            </div>
+                            <div class="col-span-1">
+                                <DangerButton
+                                    v-if="key !== 0"
+                                    class="mt-1 block w-full"
+                                    @click="form.options.splice(key, 1)"
+                                >
+                                    Remove
+                                </DangerButton>
+                            </div>
+                        </div>
+                        <div class="mt-4 flex w-full justify-center">
+                            <PrimaryButton
+                                @click="
+                                    form.options.push({ name: '', value: '' })
+                                "
+                            >
+                                Add Option
+                            </PrimaryButton>
+                        </div>
                     </div>
                     <div class="col-span-6">
                         <InputLabel value="Config" />
@@ -308,10 +352,11 @@ import InputError from '@/Components/Form/InputError.vue'
 import WarningButton from '@/Components/Button/WarningButton.vue'
 import { transformSlug } from '@/Helpers/textTransform'
 import { FwbModal } from 'flowbite-vue'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useForm } from '@inertiajs/vue3'
 import axios from '@/libs/axios'
 import DangerButton from '@/Components/Button/DangerButton.vue'
+import TextareaInput from '@/Components/Form/TextareaInput.vue'
 
 const isShowAddFieldModal = ref(false)
 const updateId = ref(null)
@@ -326,7 +371,8 @@ const form = useForm({
     default_value: '',
     is_required: false,
     is_unique: false,
-    is_searchable: false
+    is_searchable: false,
+    options: []
 })
 
 const showContentTypeFieldModal = (fieldData = null) => {
@@ -343,12 +389,22 @@ const showContentTypeFieldModal = (fieldData = null) => {
         form.is_required = fieldData.is_required
         form.is_unique = fieldData.is_unique
         form.is_searchable = fieldData.is_searchable
+
+        if (fieldData.options) {
+            form.options = fieldData.options
+        }
     } else {
         form.reset()
         updateId.value = null
     }
 
     isShowAddFieldModal.value = true
+}
+
+const changeFormType = (value) => {
+    if (!(value === 'select' || value === 'radio' || value === 'checkbox')) {
+        form.options = []
+    }
 }
 
 const transformNameField = (value) => {
@@ -372,6 +428,14 @@ const typeField = [
     { text: 'Time', value: 'time' },
     { text: 'Datetime', value: 'datetime' }
 ]
+
+const isHaveOptions = computed(() => {
+    return (
+        form.type === 'select' ||
+        form.type === 'radio' ||
+        form.type === 'checkbox'
+    )
+})
 
 const props = defineProps({
     contentType: {

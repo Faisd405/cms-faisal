@@ -14,6 +14,7 @@ class ContentTypeField extends Model
         'name',
         'label',
         'type',
+        'options',
         'validation',
         'placeholder',
         'default_value',
@@ -28,5 +29,6 @@ class ContentTypeField extends Model
         'is_required' => 'boolean',
         'is_unique' => 'boolean',
         'is_searchable' => 'boolean',
+        'options' => 'array',
     ];
 }
