@@ -88,7 +88,9 @@ onBeforeMount(() => {
 
     if (props.item.page_contents && props.item.page_contents.length > 0) {
         props.item.page_contents.forEach((item) => {
-            form.value[item.content_type_field.name].value = item.value
+            if (form.value[item.content_type_field.name]) {
+                form.value[item.content_type_field.name].value = item.value
+            }
         })
     }
 })

@@ -4,15 +4,19 @@ namespace App\Services\ContentType;
 
 use App\Base\BaseService;
 use App\Repositories\ContentType\ContentTypeFieldRepository;
+use App\Repositories\Page\PageRepository;
 
 class ContentTypeFieldService extends BaseService
 {
     protected $repository;
 
+    protected $pageContentRepository;
+
     public function __construct(ContentTypeFieldRepository $repository) {
         $this->repository = $repository;
-    }
 
+        $this->pageContentRepository = new PageRepository();
+    }
 
     public function create($data)
     {
@@ -52,5 +56,11 @@ class ContentTypeFieldService extends BaseService
         $this->repository->update($id, $data);
 
         return $this->repository->find($id);
+    }
+    public function delete($id)
+    {
+        $this->pageContentRepository->deleteContentByFieldId($id);
+
+        return $this->repository->delete($id);
     }
 }

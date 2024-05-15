@@ -38,4 +38,9 @@ class PageRepository extends BaseRepository implements BaseRepositoryInterface
 
         return true;
     }
+
+    public function deleteContentByFieldId($fieldId)
+    {
+        return $this->contentModel->where('content_type_field_id', $fieldId)->delete();
+    }
 }
