@@ -4,6 +4,7 @@ import TextareaInput from '@/Components/Form/TextareaInput.vue'
 import TextInput from '@/Components/Form/TextInput.vue'
 import InputLabel from '@/Components/Form/InputLabel.vue'
 import PrimaryButton from '@/Components/Button/PrimaryButton.vue'
+import SelectInput from '@/Components/Form/SelectInput.vue'
 import axios from '@/libs/axios'
 
 const contentTypeFields = ref({})
@@ -75,6 +76,17 @@ onBeforeMount(() => {
                     v-if="itemField.type === 'textarea'"
                     v-model="form[itemField['name']].value"
                     class="mt-1 block w-full"
+                />
+                <SelectInput
+                    v-else-if="itemField.type === 'select'"
+                    v-model="form[itemField['name']].value"
+                    class="mt-1 block w-full"
+                    :options="
+                        itemField.options.map((item) => ({
+                            value: item.value,
+                            text: item.label
+                        }))
+                    "
                 />
                 <TextInput
                     v-else
