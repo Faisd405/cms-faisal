@@ -5,6 +5,7 @@ import TextInput from '@/Components/Form/TextInput.vue'
 import InputLabel from '@/Components/Form/InputLabel.vue'
 import PrimaryButton from '@/Components/Button/PrimaryButton.vue'
 import SelectInput from '@/Components/Form/SelectInput.vue'
+import Checkbox from '@/Components/Form/Checkbox.vue'
 import axios from '@/libs/axios'
 
 const contentTypeFields = ref({})
@@ -28,13 +29,18 @@ function submitData() {
     isProcessingSubmit.value = true
     axios
         .post(`/pages/${props.item.id}/content`, { page_content: form.value })
-        .then((res) => {
-            console.log(res)
+        .then(() => {
             isProcessingSubmit.value = false
+
+            window.location.reload()
         })
         .catch(() => {
             isProcessingSubmit.value = false
         })
+}
+
+const isMultipleAnswer = (type) => {
+    return type === 'checkbox'
 }
 
 const initializeForm = () => {
@@ -42,7 +48,7 @@ const initializeForm = () => {
 
     contentTypeFields.value.forEach((field) => {
         form.value[field.name] = {
-            value: '',
+            value: isMultipleAnswer(field.type) ? [] : '',
             page_id: props.item.id,
             content_type_field_id: field.id
         }
@@ -51,6 +57,15 @@ const initializeForm = () => {
     props.item.page_contents?.forEach((item) => {
         if (form.value[item.content_type_field.name]) {
             form.value[item.content_type_field.name].value = item.value
+        }
+
+        if (
+            isMultipleAnswer(item.content_type_field.type) &&
+            !Array.isArray(item.value)
+        ) {
+            form.value[item.content_type_field.name].value = !item.value
+                ? []
+                : [item.value]
         }
     })
 }
@@ -88,6 +103,19 @@ onBeforeMount(() => {
                         }))
                     "
                 />
+                <div
+                    v-else-if="itemField.type === 'checkbox'"
+                    class="mt-1 block w-full"
+                >
+                    <Checkbox
+                        v-for="(itemOption, index) in itemField.options"
+                        :key="index"
+                        v-model:checked="form[itemField['name']].value"
+                        :value="itemOption.value"
+                    >
+                        {{ itemOption.label }}
+                    </Checkbox>
+                </div>
                 <TextInput
                     v-else
                     v-model="form[itemField['name']].value"

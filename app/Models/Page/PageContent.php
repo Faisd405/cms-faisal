@@ -18,6 +18,10 @@ class PageContent extends Model
         'order',
     ];
 
+    protected $casts = [
+        'value' => 'array',
+    ];
+
     public function page()
     {
         return $this->belongsTo(Page::class);
