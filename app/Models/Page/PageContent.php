@@ -22,6 +22,10 @@ class PageContent extends Model
         'value' => 'array',
     ];
 
+    protected $appends = ['provide'];
+
+    protected $filepath = 'uploads/page';
+
     public function page()
     {
         return $this->belongsTo(Page::class);
@@ -30,5 +34,16 @@ class PageContent extends Model
     public function contentTypeField()
     {
         return $this->belongsTo(ContentTypeField::class);
+    }
+
+    public function getProvideAttribute()
+    {
+        $provide = [];
+
+        if ($this->contentTypeField->type === 'file' || $this->contentTypeField->type === 'image') {
+            $provide['filepath'] = $this->value ? asset('/storage/' . $this->filepath . '/' . $this->value) : null;
+        }
+
+        return $provide;
     }
 }

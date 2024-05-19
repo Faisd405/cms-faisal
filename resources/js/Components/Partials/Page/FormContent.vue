@@ -5,6 +5,7 @@ import TextInput from '@/Components/Form/TextInput.vue'
 import InputLabel from '@/Components/Form/InputLabel.vue'
 import PrimaryButton from '@/Components/Button/PrimaryButton.vue'
 import SelectInput from '@/Components/Form/SelectInput.vue'
+import FileInput from '@/Components/Form/FileInput.vue'
 import Checkbox from '@/Components/Form/Checkbox.vue'
 import Radio from '@/Components/Form/Radio.vue'
 import axios from '@/libs/axios'
@@ -28,11 +29,40 @@ const props = defineProps({
 
 function submitData() {
     isProcessingSubmit.value = true
+
+    const formData = new FormData()
+    Object.keys(form.value).forEach((key) => {
+        const field = form.value[key]
+        if (Array.isArray(field.value)) {
+            field.value.forEach((value) => {
+                formData.append(`page_content[${key}][value][]`, value)
+            })
+        } else {
+            if (field.file && field.file instanceof File) {
+                formData.append(
+                    `page_content[${key}][value]`,
+                    field.file,
+                    field.file.name
+                )
+            } else {
+                formData.append(`page_content[${key}][value]`, field.value)
+            }
+        }
+        formData.append(`page_content[${key}][page_id]`, field.page_id)
+        formData.append(
+            `page_content[${key}][content_type_field_id]`,
+            field.content_type_field_id
+        )
+    })
+
     axios
-        .post(`/pages/${props.item.id}/content`, { page_content: form.value })
+        .post(`/pages/${props.item.id}/content`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
         .then(() => {
             isProcessingSubmit.value = false
-
             window.location.reload()
         })
         .catch(() => {
@@ -58,6 +88,11 @@ const initializeForm = () => {
     props.item.page_contents?.forEach((item) => {
         if (form.value[item.content_type_field.name]) {
             form.value[item.content_type_field.name].value = item.value
+            form.value[item.content_type_field.name].provide = item.provide
+        }
+
+        if (item.content_type_field.type === 'file') {
+            form.value[item.content_type_field.name].file = null
         }
 
         if (
@@ -85,7 +120,7 @@ onBeforeMount(() => {
             <div
                 v-for="(itemField, key) in contentTypeFields"
                 :key="key"
-                class="col-span-6 sm:col-span-4"
+                class="col-span-6 md:col-span-4"
             >
                 <InputLabel :for="itemField.name" :value="itemField.label" />
                 <TextareaInput
@@ -133,6 +168,33 @@ onBeforeMount(() => {
                     :type="'datetime-local'"
                     class="mt-1 block w-full"
                 />
+                <div
+                    v-else-if="
+                        itemField.type === 'file' || itemField.type === 'image'
+                    "
+                    class="mt-1 w-full justify-between gap-4 md:flex"
+                >
+                    <FileInput
+                        v-model="form[itemField['name']].file"
+                        :type="'file'"
+                        class="mt-1 block w-full"
+                        @change="
+                            (event) =>
+                                (form[itemField['name']].file =
+                                    event.target.files[0])
+                        "
+                    />
+
+                    <div v-if="form[itemField['name']].provide">
+                        <a
+                            :href="form[itemField['name']].provide.filepath"
+                            target="_blank"
+                            class="inline-flex w-full items-center justify-center rounded-md border border-transparent bg-gray-800 px-8 py-2 text-center text-xs font-semibold uppercase tracking-widest text-white transition duration-150 ease-in-out hover:bg-gray-700 focus:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 active:bg-gray-900"
+                        >
+                            Download File
+                        </a>
+                    </div>
+                </div>
                 <TextInput
                     v-else
                     v-model="form[itemField['name']].value"

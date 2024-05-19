@@ -57,6 +57,7 @@ class ContentTypeFieldService extends BaseService
 
         return $this->repository->find($id);
     }
+
     public function delete($id)
     {
         $this->pageContentRepository->deleteContentByFieldId($id);
