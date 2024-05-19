@@ -6,6 +6,7 @@ import InputLabel from '@/Components/Form/InputLabel.vue'
 import PrimaryButton from '@/Components/Button/PrimaryButton.vue'
 import SelectInput from '@/Components/Form/SelectInput.vue'
 import Checkbox from '@/Components/Form/Checkbox.vue'
+import Radio from '@/Components/Form/Radio.vue'
 import axios from '@/libs/axios'
 
 const contentTypeFields = ref({})
@@ -115,6 +116,16 @@ onBeforeMount(() => {
                     >
                         {{ itemOption.label }}
                     </Checkbox>
+                </div>
+                <div v-else-if="itemField.type === 'radio'" class="mt-1 block">
+                    <Radio
+                        v-for="(itemOption, index) in itemField.options"
+                        :key="index"
+                        v-model:checked="form[itemField['name']].value"
+                        :value="itemOption.value"
+                    >
+                        {{ itemOption.label }}
+                    </Radio>
                 </div>
                 <TextInput
                     v-else
