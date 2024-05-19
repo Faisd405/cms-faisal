@@ -128,6 +128,12 @@ onBeforeMount(() => {
                     </Radio>
                 </div>
                 <TextInput
+                    v-else-if="itemField.type === 'datetime'"
+                    v-model="form[itemField['name']].value"
+                    :type="'datetime-local'"
+                    class="mt-1 block w-full"
+                />
+                <TextInput
                     v-else
                     v-model="form[itemField['name']].value"
                     :type="itemField.type"
