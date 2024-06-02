@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Content\SectionController;
 use App\Http\Controllers\ContentTypeController;
 use App\Http\Controllers\ContentTypeFieldController;
 use App\Http\Controllers\PageController;
@@ -49,5 +50,16 @@ Route::middleware([
         Route::get('/{pageId}/edit', [PageController::class, 'edit'])->name('edit');
         Route::put('/{pageId}', [PageController::class, 'update'])->name('update');
         Route::delete('/{pageId}', [PageController::class, 'destroy'])->name('destroy');
+    });
+
+    Route::group(['prefix' => 'content', 'as' => 'content.'], function () {
+        Route::group(['prefix' => 'sections', 'as' => 'sections.'], function () {
+            Route::get('/', [SectionController::class, 'index'])->name('index');
+            Route::get('/create', [SectionController::class, 'create'])->name('create');
+            Route::post('/', [SectionController::class, 'store'])->name('store');
+            Route::get('/{sectionId}/edit', [SectionController::class, 'edit'])->name('edit');
+            Route::put('/{sectionId}', [SectionController::class, 'update'])->name('update');
+            Route::delete('/{sectionId}', [SectionController::class, 'destroy'])->name('destroy');
+        });
     });
 });
