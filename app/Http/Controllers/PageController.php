@@ -60,20 +60,20 @@ class PageController extends BaseController
     {
         $updatedData = $this->service->update($pageId, $request->all());
 
-        return $this->dynamicSuccessResponse('content-types.index', $updatedData, 'redirect');
+        return $this->dynamicSuccessResponse('page.index', $updatedData, 'redirect');
     }
 
     public function destroy($pageId)
     {
         $this->service->delete($pageId);
 
-        return $this->dynamicSuccessResponse('content-types.index', [], 'redirect');
+        return $this->dynamicSuccessResponse('page.index', [], 'redirect');
     }
 
     public function updateContent(Request $request, $pageId)
     {
         $updatedData = $this->service->updateContent($pageId, $request->all());
 
-        return $this->dynamicSuccessResponse('content-types.index', $updatedData, 'redirect');
+        return $this->dynamicSuccessResponse('page.index', $updatedData, 'redirect');
     }
 }
