@@ -25,7 +25,7 @@ const openDeleteModal = (id) => {
 
 const deleteContent = () => {
     axios
-        .delete(`/content/sections/${tempId.value}`)
+        .delete(`/content/categories/${tempId.value}`)
         .then(() => {
             isShowDeleteModal.value = false
             router.reload()
@@ -37,24 +37,24 @@ const deleteContent = () => {
 </script>
 
 <template>
-    <AppLayout title="Content Sections">
+    <AppLayout name="Content Categories">
         <template #header>
             <div class="flex justify-between">
                 <h2 class="text-xl font-semibold leading-tight text-gray-800">
-                    Content Sections
+                    Content Categories
                 </h2>
                 <div class="flex gap-x-4">
                     <a
-                        :href="`/content/categories`"
+                        :href="`/content/sections`"
                         class="rounded-md border border-slate-800 bg-slate-800 px-6 py-2 uppercase text-pallet-lighten transition duration-300 ease-in-out hover:bg-pallet-lighten hover:text-slate-800 dark:border-slate-800"
                     >
-                        Category
+                        Section
                     </a>
                     <a
-                        href="/content/sections/create"
+                        href="/content/categories/create"
                         class="rounded-md border border-slate-800 bg-slate-800 px-6 py-2 uppercase text-pallet-lighten transition duration-300 ease-in-out hover:bg-pallet-lighten hover:text-slate-800 dark:border-slate-800"
                     >
-                        <i class="ion ion-md-add"></i> Add Section
+                        <i class="ion ion-md-add"></i> Add Category
                     </a>
                 </div>
             </div>
@@ -80,7 +80,7 @@ const deleteContent = () => {
                                         scope="col"
                                         class="px-6 py-3 text-center"
                                     >
-                                        Title
+                                        Name
                                     </th>
                                     <th
                                         scope="col"
@@ -111,7 +111,7 @@ const deleteContent = () => {
                                         <div
                                             class="text-sm font-semibold text-gray-900"
                                         >
-                                            {{ item.title }}
+                                            {{ item.name }}
                                         </div>
                                     </td>
                                     <td class="whitespace-nowrap px-6 py-4">
@@ -124,13 +124,7 @@ const deleteContent = () => {
                                             class="flex items-center justify-center"
                                         >
                                             <a
-                                                :href="`/content/sections/${item.id}/post`"
-                                                class="mb-2 me-2 rounded-lg bg-green-400 px-6 py-1.5 text-sm font-medium uppercase text-white hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300"
-                                            >
-                                                Post
-                                            </a>
-                                            <a
-                                                :href="`/content/sections/${item.id}/edit`"
+                                                :href="`/content/categories/${item.id}/edit`"
                                                 class="mb-2 me-2 rounded-lg bg-yellow-400 px-6 py-1.5 text-sm font-medium uppercase text-white hover:bg-yellow-500 focus:outline-none focus:ring-4 focus:ring-yellow-300"
                                             >
                                                 Edit

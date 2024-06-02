@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Content\CategoryController;
 use App\Http\Controllers\Content\SectionController;
 use App\Http\Controllers\ContentTypeController;
 use App\Http\Controllers\ContentTypeFieldController;
@@ -53,6 +54,15 @@ Route::middleware([
     });
 
     Route::group(['prefix' => 'content', 'as' => 'content.'], function () {
+        Route::group(['prefix' => 'categories', 'as' => 'categories.'], function () {
+            Route::get('/', [CategoryController::class, 'index'])->name('index');
+            Route::get('/create', [CategoryController::class, 'create'])->name('create');
+            Route::post('/', [CategoryController::class, 'store'])->name('store');
+            Route::get('/{categoryId}/edit', [CategoryController::class, 'edit'])->name('edit');
+            Route::put('/{categoryId}', [CategoryController::class, 'update'])->name('update');
+            Route::delete('/{categoryId}', [CategoryController::class, 'destroy'])->name('destroy');
+        });
+
         Route::group(['prefix' => 'sections', 'as' => 'sections.'], function () {
             Route::get('/', [SectionController::class, 'index'])->name('index');
             Route::get('/create', [SectionController::class, 'create'])->name('create');
