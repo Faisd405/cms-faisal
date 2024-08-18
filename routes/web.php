@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Content\CategoryController;
+use App\Http\Controllers\Content\PostController;
 use App\Http\Controllers\Content\SectionController;
 use App\Http\Controllers\ContentTypeController;
 use App\Http\Controllers\ContentTypeFieldController;
@@ -64,6 +65,17 @@ Route::middleware([
         });
 
         Route::group(['prefix' => 'sections', 'as' => 'sections.'], function () {
+            Route::group(['prefix' => '{sectionId}/posts', 'as' => 'posts.'], function () {
+                Route::match(['post', 'put'], '/{postId}/content', [PostController::class, 'updateContent'])->name('update-content');
+
+                Route::get('/', [PostController::class, 'index'])->name('index');
+                Route::get('/create', [PostController::class, 'create'])->name('create');
+                Route::post('/', [PostController::class, 'store'])->name('store');
+                Route::get('/{postId}/edit', [PostController::class, 'edit'])->name('edit');
+                Route::put('/{postId}', [PostController::class, 'update'])->name('update');
+                Route::delete('/{postId}', [PostController::class, 'destroy'])->name('destroy');
+            });
+
             Route::get('/', [SectionController::class, 'index'])->name('index');
             Route::get('/create', [SectionController::class, 'create'])->name('create');
             Route::post('/', [SectionController::class, 'store'])->name('store');

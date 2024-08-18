@@ -25,16 +25,16 @@ class PageService extends BaseService implements BaseServiceInterface
 
     public function updateContent($pageId, $content)
     {
-        foreach ($content['page_content'] as $key => $value) {
+        foreach ($content['item_content'] as $key => $value) {
             $contentTypeField = $this->contentFieldRepository->find($value['content_type_field_id']);
 
             if ($contentTypeField->type === 'file') {
                 $pageContent = $this->repository->getOneContent($pageId, $value['content_type_field_id']);
 
                 if ($pageContent) {
-                    $content['page_content'][$key]['value'] = $this->updateFile($value['value'], $pageContent->value, 'uploads/page');
+                    $content['item_content'][$key]['value'] = $this->updateFile($value['value'], $pageContent->value, 'uploads/page');
                 } else {
-                    $content['page_content'][$key]['value'] = $this->uploadFile($value['value'], 'uploads/page');
+                    $content['item_content'][$key]['value'] = $this->uploadFile($value['value'], 'uploads/page');
                 }
             }
         }

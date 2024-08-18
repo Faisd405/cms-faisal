@@ -41,7 +41,7 @@ class Page extends Model
         return $this->belongsTo(ContentType::class);
     }
 
-    public function pageContents()
+    public function contentValue()
     {
         return $this->hasMany(PageContent::class);
     }

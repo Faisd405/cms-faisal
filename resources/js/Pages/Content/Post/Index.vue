@@ -15,6 +15,10 @@ defineProps({
     list: {
         type: Object,
         default: () => ({})
+    },
+    section: {
+        type: Object,
+        default: () => ({})
     }
 })
 
@@ -23,9 +27,9 @@ const openDeleteModal = (id) => {
     tempId.value = JSON.parse(JSON.stringify(id))
 }
 
-const deleteContent = () => {
+const deletePost = () => {
     axios
-        .delete(`/content/sections/${tempId.value}`)
+        .delete(`/posts/${tempId.value}`)
         .then(() => {
             isShowDeleteModal.value = false
             router.reload()
@@ -37,24 +41,18 @@ const deleteContent = () => {
 </script>
 
 <template>
-    <AppLayout title="Content Sections">
+    <AppLayout title="Posts">
         <template #header>
             <div class="flex justify-between">
                 <h2 class="text-xl font-semibold leading-tight text-gray-800">
-                    Content Sections
+                    Posts
                 </h2>
-                <div class="flex gap-x-4">
+                <div>
                     <a
-                        :href="`/content/categories`"
+                        :href="`/content/sections/${section.id}/posts/create`"
                         class="rounded-md border border-slate-800 bg-slate-800 px-6 py-2 uppercase text-pallet-lighten transition duration-300 ease-in-out hover:bg-pallet-lighten hover:text-slate-800 dark:border-slate-800"
                     >
-                        Category
-                    </a>
-                    <a
-                        href="/content/sections/create"
-                        class="rounded-md border border-slate-800 bg-slate-800 px-6 py-2 uppercase text-pallet-lighten transition duration-300 ease-in-out hover:bg-pallet-lighten hover:text-slate-800 dark:border-slate-800"
-                    >
-                        <i class="ion ion-md-add"></i> Add Section
+                        <i class="ion ion-md-add"></i> Add Post
                     </a>
                 </div>
             </div>
@@ -124,13 +122,7 @@ const deleteContent = () => {
                                             class="flex items-center justify-center"
                                         >
                                             <a
-                                                :href="`/content/sections/${item.id}/posts`"
-                                                class="mb-2 me-2 rounded-lg bg-green-400 px-6 py-1.5 text-sm font-medium uppercase text-white hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300"
-                                            >
-                                                Post
-                                            </a>
-                                            <a
-                                                :href="`/content/sections/${item.id}/edit`"
+                                                :href="`/content/sections/${item.content_section_id}/posts/${item.id}/edit`"
                                                 class="mb-2 me-2 rounded-lg bg-yellow-400 px-6 py-1.5 text-sm font-medium uppercase text-white hover:bg-yellow-500 focus:outline-none focus:ring-4 focus:ring-yellow-300"
                                             >
                                                 Edit
@@ -155,10 +147,10 @@ const deleteContent = () => {
         </div>
 
         <FwbModal v-if="isShowDeleteModal" @close="isShowDeleteModal = false">
-            <template #header> Delete Content </template>
+            <template #header> Delete Post </template>
             <template #body>
                 <div class="text-center">
-                    Are you sure you want to delete this Content?
+                    Are you sure you want to delete this Post?
                 </div>
             </template>
             <template #footer>
@@ -173,7 +165,7 @@ const deleteContent = () => {
                     <PrimaryButton
                         color="red"
                         type="button"
-                        @click="deleteContent"
+                        @click="deletePost"
                     >
                         Delete
                     </PrimaryButton>

@@ -40,6 +40,38 @@
                         class="mt-2"
                     />
                 </div>
+                <div class="col-span-6 sm:col-span-4">
+                    <InputLabel
+                        for="section_content_type_id"
+                        value="Content Type for Section"
+                    />
+                    <SelectInput
+                        id="section_content_type_id"
+                        v-model="form.section_content_type_id"
+                        class="mt-1 block w-full"
+                        :options="listContentTypes"
+                    />
+                    <InputError
+                        :message="form.errors.section_content_type_id"
+                        class="mt-2"
+                    />
+                </div>
+                <div class="col-span-6 sm:col-span-4">
+                    <InputLabel
+                        for="post_content_type_id"
+                        value="Content Type for Post"
+                    />
+                    <SelectInput
+                        id="post_content_type_id"
+                        v-model="form.post_content_type_id"
+                        class="mt-1 block w-full"
+                        :options="listContentTypes"
+                    />
+                    <InputError
+                        :message="form.errors.post_content_type_id"
+                        class="mt-2"
+                    />
+                </div>
             </div>
         </div>
 
@@ -61,6 +93,7 @@ import { router, useForm } from '@inertiajs/vue3'
 import InputError from '@/Components/Form/InputError.vue'
 import InputLabel from '@/Components/Form/InputLabel.vue'
 import TextInput from '@/Components/Form/TextInput.vue'
+import SelectInput from '@/Components/Form/SelectInput.vue'
 import PrimaryButton from '@/Components/Button/PrimaryButton.vue'
 import { onBeforeMount, ref } from 'vue'
 import axios from '@/libs/axios'
@@ -70,7 +103,9 @@ const updateId = ref(null)
 const form = useForm({
     title: '',
     slug: '',
-    description: ''
+    description: '',
+    section_content_type_id: null,
+    post_content_type_id: null
 })
 
 const transformSlugPage = (value) => {
@@ -110,8 +145,14 @@ const props = defineProps({
             id: null,
             title: '',
             slug: '',
-            description: ''
+            description: '',
+            section_content_type_id: null,
+            post_content_type_id: null
         })
+    },
+    listContentTypes: {
+        type: Array,
+        default: () => []
     }
 })
 
@@ -121,6 +162,8 @@ onBeforeMount(() => {
         form.title = props.item.title
         form.slug = props.item.slug
         form.description = props.item.description
+        form.section_content_type_id = props.item.section_content_type_id
+        form.post_content_type_id = props.item.post_content_type_id
     }
 })
 </script>

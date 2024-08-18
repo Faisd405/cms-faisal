@@ -24,6 +24,10 @@ const props = defineProps({
             name: '',
             description: ''
         })
+    },
+    updateUrl: {
+        type: String,
+        default: ''
     }
 })
 
@@ -35,28 +39,28 @@ function submitData() {
         const field = form.value[key]
         if (Array.isArray(field.value)) {
             field.value.forEach((value) => {
-                formData.append(`page_content[${key}][value][]`, value)
+                formData.append(`item_content[${key}][value][]`, value)
             })
         } else {
             if (field.file && field.file instanceof File) {
                 formData.append(
-                    `page_content[${key}][value]`,
+                    `item_content[${key}][value]`,
                     field.file,
                     field.file.name
                 )
             } else {
-                formData.append(`page_content[${key}][value]`, field.value)
+                formData.append(`item_content[${key}][value]`, field.value)
             }
         }
-        formData.append(`page_content[${key}][page_id]`, field.page_id)
+        formData.append(`item_content[${key}][page_id]`, field.page_id)
         formData.append(
-            `page_content[${key}][content_type_field_id]`,
+            `item_content[${key}][content_type_field_id]`,
             field.content_type_field_id
         )
     })
 
     axios
-        .post(`/pages/${props.item.id}/content`, formData, {
+        .post(`${props.updateUrl}`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
@@ -85,7 +89,7 @@ const initializeForm = () => {
         }
     })
 
-    props.item.page_contents?.forEach((item) => {
+    props.item.content_value?.forEach((item) => {
         if (form.value[item.content_type_field.name]) {
             form.value[item.content_type_field.name].value = item.value
             form.value[item.content_type_field.name].provide = item.provide

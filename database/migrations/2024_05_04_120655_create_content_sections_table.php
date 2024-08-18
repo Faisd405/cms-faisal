@@ -17,6 +17,9 @@ return new class extends Migration
             $table->unsignedBigInteger('updated_by')->nullable();
             $table->unsignedBigInteger('deleted_by')->nullable();
 
+            $table->unsignedBigInteger('post_content_type_id')->nullable();
+            $table->unsignedBigInteger('section_content_type_id')->nullable();
+
             $table->string('title');
             $table->string('slug')->unique();
             $table->text('description')->nullable();
@@ -27,6 +30,9 @@ return new class extends Migration
             $table->foreign('created_by')->references('id')->on('users');
             $table->foreign('updated_by')->references('id')->on('users');
             $table->foreign('deleted_by')->references('id')->on('users');
+
+            $table->foreign('post_content_type_id')->references('id')->on('content_types');
+            $table->foreign('section_content_type_id')->references('id')->on('content_types');
         });
     }
 

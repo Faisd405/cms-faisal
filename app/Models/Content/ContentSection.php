@@ -10,6 +10,8 @@ class ContentSection extends Model
     use HasFactory;
 
     protected $fillable = [
+        'post_content_type_id',
+        'section_content_type_id',
         'title',
         'slug',
         'description',
@@ -28,6 +30,16 @@ class ContentSection extends Model
     public function deletedBy()
     {
         return $this->belongsTo(User::class, 'deleted_by');
+    }
+
+    public function postContentType()
+    {
+        return $this->belongsTo(ContentType::class, 'post_content_type_id');
+    }
+
+    public function sectionContentType()
+    {
+        return $this->belongsTo(ContentType::class, 'section_content_type_id');
     }
 
     public function posts()

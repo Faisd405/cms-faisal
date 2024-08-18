@@ -17,7 +17,10 @@
         </template>
 
         <div class="mt-8 md:col-span-2">
-            <FormSection :item="formSection" />
+            <FormSection
+                :item="formSection"
+                :list-content-types="listContentTypes"
+            />
         </div>
     </AppLayout>
 </template>
@@ -29,6 +32,7 @@ import FormSection from '@/Components/Partials/Content/FormSection.vue'
 import { onBeforeMount, ref } from 'vue'
 
 const formSection = ref([])
+const listContentTypes = ref([])
 
 const props = defineProps({
     item: {
@@ -38,10 +42,18 @@ const props = defineProps({
             name: '',
             description: ''
         })
+    },
+    contentTypes: {
+        type: Array,
+        default: () => []
     }
 })
 
 onBeforeMount(() => {
     formSection.value = props.item
+    listContentTypes.value = props.contentTypes.map((item) => ({
+        value: item.id,
+        text: item.name
+    }))
 })
 </script>

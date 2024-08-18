@@ -4,15 +4,20 @@ namespace App\Http\Controllers\Content;
 
 use App\Base\BaseController;
 use App\Services\Content\SectionService;
+use App\Services\ContentType\ContentTypeService;
 use Illuminate\Http\Request;
 
 class SectionController extends BaseController
 {
     protected $service;
 
-    public function __construct(SectionService $service)
+    protected $contentTypeService;
+
+    public function __construct(SectionService $service, ContentTypeService $contentTypeService)
     {
         $this->service = $service;
+
+        $this->contentTypeService = $contentTypeService;
     }
 
     public function index(Request $request)
@@ -24,7 +29,9 @@ class SectionController extends BaseController
 
     public function create()
     {
-        return $this->dynamicSuccessResponse('Content/Section/Form', [], 'inertia');
+        $data['contentTypes'] = $this->contentTypeService->getAll([], false);
+
+        return $this->dynamicSuccessResponse('Content/Section/Form', $data, 'inertia');
     }
 
     public function store(Request $request)
@@ -41,6 +48,8 @@ class SectionController extends BaseController
         if (!$data['item']) {
             return $this->dynamicErrorResponse('404', [], 'inertia');
         }
+
+        $data['contentTypes'] = $this->contentTypeService->getAll([], false);
 
         return $this->dynamicSuccessResponse('Content/Section/Form', $data, 'inertia');
     }

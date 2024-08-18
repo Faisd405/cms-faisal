@@ -17,7 +17,6 @@ return new class extends Migration
             $table->unsignedBigInteger('content_type_field_id');
             $table->unsignedBigInteger('localization_id')->nullable();
 
-            $table->string('title');
             $table->text('value')->nullable();
             $table->unsignedInteger('order')->default(0);
             $table->timestamps();

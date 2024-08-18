@@ -44,7 +44,7 @@ class PageController extends BaseController
     public function edit($pageId)
     {
         $data['item'] = $this->service->find($pageId, [
-            'with' => ['contentType.fields', 'pageContents.contentTypeField'],
+            'with' => ['contentType.fields', 'contentValue.contentTypeField'],
         ]);
 
         if (!$data['item']) {

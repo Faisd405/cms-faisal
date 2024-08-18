@@ -1,31 +1,44 @@
 <template>
-    <AppLayout title="Pages">
+    <AppLayout title="Posts">
         <template #header>
             <div class="flex justify-between">
                 <h2 class="text-xl font-semibold leading-tight text-slate-800">
                     <Link
-                        href="/pages"
+                        href="/posts"
                         class="text-blue-400 hover:text-blue-800"
                     >
-                        Pages
+                        Posts
                     </Link>
                     /
-                    <span v-if="pages.id != null"> Update </span>
+                    <Link
+                        :href="`/content/sections/${section.id}/posts`"
+                        class="text-blue-400 hover:text-blue-800"
+                    >
+                        {{ section.title }}
+                    </Link>
+                    /
+                    <span v-if="posts.id != null">
+                        Update {{ posts.title }}
+                    </span>
                     <span v-else> Create </span>
                 </h2>
             </div>
         </template>
 
         <div class="mt-8 md:col-span-2">
-            <FormPage :item="pages" :list-content-types="listContentTypes" />
+            <FormContentPost
+                :item="posts"
+                :section="section"
+                :list-content-types="listContentTypes"
+            />
         </div>
 
-        <div v-if="pages.id != null">
+        <div v-if="posts.id != null">
             <hr class="mt-8 border border-slate-600" />
             <div class="mt-8 md:col-span-2">
                 <FormContent
-                    :item="pages"
-                    :update-url="`/pages/${props.item.id}/content`"
+                    :item="posts"
+                    :update-url="`/content/sections/${section.id}/posts/${posts.id}/content`"
                 />
             </div>
         </div>
@@ -35,11 +48,11 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue'
 import { Link } from '@inertiajs/vue3'
-import FormPage from '@/Components/Partials/Page/FormPage.vue'
+import FormContentPost from '@/Components/Partials/Content/FormPost.vue'
 import FormContent from '@/Components/Partials/Page/FormContent.vue'
 import { onBeforeMount, ref } from 'vue'
 
-const pages = ref([])
+const posts = ref([])
 const listContentTypes = ref([])
 
 const props = defineProps({
@@ -54,11 +67,19 @@ const props = defineProps({
     contentTypes: {
         type: Array,
         default: () => []
+    },
+    section: {
+        type: Object,
+        default: () => ({
+            id: null,
+            title: '',
+            description: ''
+        })
     }
 })
 
 onBeforeMount(() => {
-    pages.value = props.item
+    posts.value = props.item
     listContentTypes.value = props.contentTypes.map((item) => ({
         value: item.id,
         text: item.name
