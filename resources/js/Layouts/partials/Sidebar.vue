@@ -130,9 +130,9 @@
                     <ul class="mb-3 flex-col space-y-4">
                         <sidenav-menu-link
                             icon="ion ion-md-home"
-                            :href="route('content.sections.index')"
+                            :href="route('collection.sections.index')"
                         >
-                            Content
+                            Collection
                         </sidenav-menu-link>
                     </ul>
 

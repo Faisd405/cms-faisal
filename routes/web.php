@@ -1,8 +1,8 @@
 <?php
 
-use App\Http\Controllers\Content\CategoryController;
-use App\Http\Controllers\Content\PostController;
-use App\Http\Controllers\Content\SectionController;
+use App\Http\Controllers\Collection\CategoryController;
+use App\Http\Controllers\Collection\PostController;
+use App\Http\Controllers\Collection\SectionController;
 use App\Http\Controllers\ContentTypeController;
 use App\Http\Controllers\ContentTypeFieldController;
 use App\Http\Controllers\PageController;
@@ -54,7 +54,7 @@ Route::middleware([
         Route::delete('/{pageId}', [PageController::class, 'destroy'])->name('destroy');
     });
 
-    Route::group(['prefix' => 'content', 'as' => 'content.'], function () {
+    Route::group(['prefix' => 'collection', 'as' => 'collection.'], function () {
         Route::group(['prefix' => 'categories', 'as' => 'categories.'], function () {
             Route::get('/', [CategoryController::class, 'index'])->name('index');
             Route::get('/create', [CategoryController::class, 'create'])->name('create');
