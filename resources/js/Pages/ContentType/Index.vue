@@ -80,7 +80,7 @@ const deleteContentType = () => {
                                         scope="col"
                                         class="px-6 py-3 text-center"
                                     >
-                                        Description
+                                        Type
                                     </th>
                                     <th
                                         scope="col"
@@ -109,8 +109,10 @@ const deleteContentType = () => {
                                         </div>
                                     </td>
                                     <td class="whitespace-nowrap px-6 py-4">
-                                        <div class="text-sm text-gray-900">
-                                            {{ item.description }}
+                                        <div
+                                            class="rounded-lg bg-green-400 px-2 py-1 text-center text-sm font-semibold uppercase text-white"
+                                        >
+                                            {{ item.type }}
                                         </div>
                                     </td>
                                     <td class="whitespace-normal px-6 py-4">

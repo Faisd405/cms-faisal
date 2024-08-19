@@ -19,7 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('content_type_id');
 
             $table->string('title');
-            $table->string('slug')->unique();
+            $table->string('slug');
             $table->string('template')->nullable();
             $table->boolean('is_active')->default(true);
             $table->dateTime('published_at')->nullable();

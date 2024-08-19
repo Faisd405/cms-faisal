@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Collection;
 
 use App\Base\BaseController;
+use App\Enums\ContentType;
 use App\Services\Collection\SectionService;
 use App\Services\ContentType\ContentTypeService;
 use Illuminate\Http\Request;
@@ -29,7 +30,11 @@ class SectionController extends BaseController
 
     public function create()
     {
-        $data['contentTypes'] = $this->contentTypeService->getAll([], false);
+        $data['contentTypes'] = $this->contentTypeService->getAll([
+            'filter' => [
+                'type' => ContentType::COLLECTION->value
+            ]
+        ], false);
 
         return $this->dynamicSuccessResponse('Collection/Section/Form', $data, 'inertia');
     }
@@ -49,7 +54,11 @@ class SectionController extends BaseController
             return $this->dynamicErrorResponse('404', [], 'inertia');
         }
 
-        $data['contentTypes'] = $this->contentTypeService->getAll([], false);
+        $data['contentTypes'] = $this->contentTypeService->getAll([
+            'filter' => [
+                'type' => ContentType::COLLECTION->value
+            ]
+        ], false);
 
         return $this->dynamicSuccessResponse('Collection/Section/Form', $data, 'inertia');
     }

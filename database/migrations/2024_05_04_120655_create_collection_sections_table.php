@@ -20,7 +20,7 @@ return new class extends Migration
             $table->unsignedBigInteger('post_content_type_id')->nullable();
 
             $table->string('title');
-            $table->string('slug')->unique();
+            $table->string('slug');
             $table->text('description')->nullable();
 
             $table->timestamps();

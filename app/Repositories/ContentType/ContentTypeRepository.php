@@ -8,6 +8,8 @@ use App\Models\ContentType\ContentType;
 
 class ContentTypeRepository extends BaseRepository implements BaseRepositoryInterface
 {
+    protected array $filterable = ['name', 'description', 'type'];
+
     public function __construct()
     {
         parent::__construct(new ContentType);

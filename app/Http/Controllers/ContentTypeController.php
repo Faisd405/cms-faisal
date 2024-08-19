@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Base\BaseController;
+use App\Enums\ContentType;
 use App\Http\Requests\ContentType\ContentTypeRequest;
 use App\Services\ContentType\ContentTypeService;
 use Illuminate\Http\Request;
@@ -25,7 +26,9 @@ class ContentTypeController extends BaseController
 
     public function create()
     {
-        return $this->dynamicSuccessResponse('ContentType/Form', [], 'inertia');
+        $data['types'] = ContentType::options();
+
+        return $this->dynamicSuccessResponse('ContentType/Form', $data, 'inertia');
     }
 
     public function store(ContentTypeRequest $request)
@@ -38,6 +41,8 @@ class ContentTypeController extends BaseController
     public function edit($contentTypeId)
     {
         $data['item'] = $this->service->find($contentTypeId);
+
+        $data['types'] = ContentType::options();
 
         if (!$data['item']) {
             return $this->dynamicErrorResponse('404', [], 'inertia');

@@ -17,6 +17,7 @@ class ContentType extends BaseModel
         'deleted_by',
         'name',
         'description',
+        'type',
     ];
 
     public static function boot()

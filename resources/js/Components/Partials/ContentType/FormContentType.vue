@@ -28,6 +28,17 @@
                         class="mt-2"
                     />
                 </div>
+                <div class="col-span-6 sm:col-span-4">
+                    <InputLabel for="type" value="Type" />
+                    <SelectInput
+                        id="type"
+                        v-model="form.type"
+                        class="mt-1 block w-full"
+                        :options="typeContent"
+                    >
+                    </SelectInput>
+                    <InputError :message="form.errors.type" class="mt-2" />
+                </div>
             </div>
         </div>
 
@@ -35,7 +46,7 @@
             class="flex justify-end bg-white px-4 py-2 shadow sm:rounded-tl-md sm:rounded-tr-md sm:px-6 sm:py-4"
         >
             <PrimaryButton
-                :class="{ 'opacity-25': form.processing }"
+                :class="form.processing ? 'opacity-25' : ''"
                 :disabled="form.processing"
             >
                 {{ updateId !== null ? 'Update' : 'Create' }}
@@ -52,11 +63,15 @@ import TextInput from '@/Components/Form/TextInput.vue'
 import PrimaryButton from '@/Components/Button/PrimaryButton.vue'
 import { onBeforeMount, ref } from 'vue'
 import axios from '@/libs/axios'
+import SelectInput from '@/Components/Form/SelectInput.vue'
 
 const updateId = ref(null)
+const typeContent = ref([])
+
 const form = useForm({
     name: '',
-    description: ''
+    description: '',
+    type: ''
 })
 
 const submitData = () => {
@@ -91,8 +106,13 @@ const props = defineProps({
         default: () => ({
             id: null,
             name: '',
-            description: ''
+            description: '',
+            type: ''
         })
+    },
+    types: {
+        type: Array,
+        default: () => []
     }
 })
 
@@ -101,6 +121,14 @@ onBeforeMount(() => {
         updateId.value = props.item.id
         form.name = props.item.name
         form.description = props.item.description
+        form.type = props.item.type
     }
+
+    props.types.forEach((item) => {
+        typeContent.value.push({
+            value: item.value,
+            text: item.label
+        })
+    })
 })
 </script>

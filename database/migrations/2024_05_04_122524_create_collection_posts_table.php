@@ -20,7 +20,7 @@ return new class extends Migration
             $table->unsignedBigInteger('category_id')->nullable();
 
             $table->string('title');
-            $table->string('slug')->unique();
+            $table->string('slug');
             $table->unsignedInteger('order')->default(0);
 
             $table->timestamps();

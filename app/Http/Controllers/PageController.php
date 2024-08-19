@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Base\BaseController;
+use App\Enums\ContentType;
 use App\Http\Requests\Page\PageRequest;
 use App\Services\ContentType\ContentTypeService;
 use App\Services\Page\PageService;
@@ -29,7 +30,11 @@ class PageController extends BaseController
 
     public function create()
     {
-        $data['contentTypes'] = $this->contentTypeService->getAll([], false);
+        $data['contentTypes'] = $this->contentTypeService->getAll([
+            'filter' => [
+                'type' => ContentType::PAGE->value
+            ]
+        ], false);
 
         return $this->dynamicSuccessResponse('Page/Form', $data, 'inertia');
     }
@@ -51,7 +56,11 @@ class PageController extends BaseController
             return $this->dynamicErrorResponse('404', [], 'inertia');
         }
 
-        $data['contentTypes'] = $this->contentTypeService->getAll([], false);
+        $data['contentTypes'] = $this->contentTypeService->getAll([
+            'filter' => [
+                'type' => ContentType::PAGE->value
+            ]
+        ], false);
 
         return $this->dynamicSuccessResponse('Page/Form', $data, 'inertia');
     }

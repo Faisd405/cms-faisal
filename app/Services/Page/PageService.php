@@ -4,7 +4,9 @@ namespace App\Services\Page;
 
 use App\Base\BaseService;
 use App\Base\Construct\BaseServiceInterface;
+use App\Enums\ContentType;
 use App\Repositories\ContentType\ContentTypeFieldRepository;
+use App\Repositories\ContentType\ContentTypeRepository;
 use App\Repositories\Page\PageRepository;
 use App\Traits\UseAttachment;
 
@@ -16,10 +18,13 @@ class PageService extends BaseService implements BaseServiceInterface
 
     protected $contentFieldRepository;
 
+    protected $contentTypeRepository;
+
     public function __construct(PageRepository $repository)
     {
         $this->repository = $repository;
 
+        $this->contentTypeRepository = new ContentTypeRepository();
         $this->contentFieldRepository = new ContentTypeFieldRepository();
     }
 
@@ -40,5 +45,20 @@ class PageService extends BaseService implements BaseServiceInterface
         }
 
         return $this->repository->updateContent($pageId, $content);
+    }
+
+    public function create($data)
+    {
+        $contentType = $this->contentTypeRepository->find($data['content_type_id']);
+
+        if (!$contentType) {
+            throw new \Exception('Content type not found');
+        }
+
+        if ($contentType->type !== ContentType::PAGE->value) {
+            throw new \Exception('Content type is not page');
+        }
+
+        return $this->repository->create($data);
     }
 }

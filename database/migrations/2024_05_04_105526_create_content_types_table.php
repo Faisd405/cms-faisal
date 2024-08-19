@@ -19,6 +19,8 @@ return new class extends Migration
 
             $table->string('name');
             $table->string('description')->nullable();
+            $table->string('type');
+
             $table->timestamps();
 
             // Add foreign key

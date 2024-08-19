@@ -17,7 +17,7 @@
         </template>
 
         <div class="mt-8 md:col-span-2">
-            <FormContentType :item="contentTypes" />
+            <FormContentType :item="contentTypes" :types="types" />
         </div>
 
         <div v-if="contentTypes.id != null">
@@ -55,6 +55,10 @@ const props = defineProps({
             name: '',
             description: ''
         })
+    },
+    types: {
+        type: Array,
+        default: () => []
     }
 })
 
