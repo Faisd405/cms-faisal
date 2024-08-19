@@ -29,7 +29,7 @@ const linkTinyMce = '/vendor/tinymce/tinymce.min.js'
 const editorConfig = {
     selector: '#about',
     plugins:
-        'code paste autoresize autosave link image image media wordcount lists table preview',
+        'code autoresize autosave link image image media wordcount lists table preview',
     menubar: false,
     branding: false,
     toolbar:
@@ -38,9 +38,11 @@ const editorConfig = {
 </script>
 
 <template>
-    <Editor
-        v-model="input"
-        :init="editorConfig"
-        :tinymce-script-src="linkTinyMce"
-    />
+    <div>
+        <Editor
+            v-model="input"
+            :init="editorConfig"
+            :tinymce-script-src="linkTinyMce"
+        />
+    </div>
 </template>

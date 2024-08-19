@@ -219,7 +219,7 @@ onBeforeMount(() => {
             <PrimaryButton
                 :class="{ 'opacity-25': isProcessingSubmit }"
                 :disabled="isProcessingSubmit"
-                @click="submitData"
+                @click.prevent="submitData"
             >
                 Update Content
             </PrimaryButton>
