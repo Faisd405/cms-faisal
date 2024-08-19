@@ -298,7 +298,7 @@
                     <PrimaryButton
                         color="red"
                         type="button"
-                        :class="{ 'opacity-25': form.processing }"
+                        :class="form.processing ? 'opacity-25' : ''"
                         :disabled="form.processing"
                         @click="submitData"
                     >
@@ -426,7 +426,8 @@ const typeField = [
     { text: 'Image', value: 'image' },
     { text: 'Date', value: 'date' },
     { text: 'Time', value: 'time' },
-    { text: 'Datetime', value: 'datetime' }
+    { text: 'Datetime', value: 'datetime' },
+    { text: 'WYSIWYG', value: 'wysiwyg' }
 ]
 
 const isHaveOptions = computed(() => {

@@ -8,6 +8,7 @@
         "eslint-fix": "eslint --fix --ext .js,.vue resources/js"
     },
     "dependencies": {
+        "@tinymce/tinymce-vue": "^5.1.1",
         "@vee-validate/zod": "^4.12.4",
         "@vueuse/core": "^10.7.1",
         "chart.js": "^3.8.0",
@@ -33,12 +34,12 @@
         "@vitejs/plugin-vue-jsx": "^3.0.0",
         "@vue/tsconfig": "^0.5.1",
         "autoprefixer": "^10.4.16",
+        "axios": "^1.6.4",
         "cross-env": "^7.0",
         "eslint": "^8.49.0",
         "eslint-config-prettier": "^9.0.0",
         "eslint-plugin-prettier": "^5.0.0",
         "eslint-plugin-vue": "^9.17.0",
-        "axios": "^1.6.4",
         "laravel-vite-plugin": "^1.0",
         "postcss": "^8.4.32",
         "prettier": "^3.0.3",

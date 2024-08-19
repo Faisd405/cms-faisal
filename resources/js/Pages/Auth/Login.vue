@@ -17,8 +17,8 @@ defineProps({
 })
 
 const form = useForm({
-    email: '',
-    password: '',
+    email: 'superadmin@cmsisal.test',
+    password: 'inipassword',
     remember: false
 })
 

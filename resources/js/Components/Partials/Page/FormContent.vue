@@ -8,6 +8,7 @@ import SelectInput from '@/Components/Form/SelectInput.vue'
 import FileInput from '@/Components/Form/FileInput.vue'
 import Checkbox from '@/Components/Form/Checkbox.vue'
 import Radio from '@/Components/Form/Radio.vue'
+import TinyMce from '@/Components/Form/TinyMce.vue'
 import axios from '@/libs/axios'
 
 const contentTypeFields = ref({})
@@ -67,7 +68,6 @@ function submitData() {
         })
         .then(() => {
             isProcessingSubmit.value = false
-            window.location.reload()
         })
         .catch(() => {
             isProcessingSubmit.value = false
@@ -199,6 +199,11 @@ onBeforeMount(() => {
                         </a>
                     </div>
                 </div>
+                <TinyMce
+                    v-else-if="itemField.type === 'wysiwyg'"
+                    v-model="form[itemField['name']].value"
+                    class="col-span-6 md:col-span-4"
+                />
                 <TextInput
                     v-else
                     v-model="form[itemField['name']].value"
@@ -206,6 +211,7 @@ onBeforeMount(() => {
                     class="mt-1 block w-full"
                 />
             </div>
+            <div class="col-span-6 md:col-span-4"></div>
         </div>
         <div
             class="mt-2 flex justify-end border-t-2 px-4 pt-2 sm:mt-4 sm:rounded-tl-md sm:rounded-tr-md sm:px-6 sm:pt-4"
