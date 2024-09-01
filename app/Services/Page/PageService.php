@@ -61,4 +61,9 @@ class PageService extends BaseService implements BaseServiceInterface
 
         return $this->repository->create($data);
     }
+
+    public function findBySlug($id, $params = [])
+    {
+        return $this->repository->findBySlug($id, $params);
+    }
 }

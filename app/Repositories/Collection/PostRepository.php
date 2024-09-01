@@ -48,4 +48,16 @@ class PostRepository extends BaseRepository implements BaseRepositoryInterface
     {
         return $this->contentModel->where('post_id', $postId)->where('content_type_field_id', $fieldId)->first();
     }
+
+    public function getAllBySectionSlug($slug, $params = [])
+    {
+        return $this->model->whereHas('section', function ($query) use ($slug) {
+            $query->where('slug', $slug);
+        })->get();
+    }
+
+    public function findBySlug($slug, $params = [])
+    {
+        return $this->prepareQuery($params)->where('slug', $slug)->first();
+    }
 }

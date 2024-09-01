@@ -48,4 +48,9 @@ class PageRepository extends BaseRepository implements BaseRepositoryInterface
     {
         return $this->contentModel->where('page_id', $pageId)->where('content_type_field_id', $fieldId)->first();
     }
+
+    public function findBySlug($slug, $params = [])
+    {
+        return $this->prepareQuery($params)->where('slug', $slug)->first();
+    }
 }

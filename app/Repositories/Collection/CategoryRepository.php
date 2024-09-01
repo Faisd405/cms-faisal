@@ -12,4 +12,9 @@ class CategoryRepository extends BaseRepository implements BaseRepositoryInterfa
     {
         parent::__construct(new CollectionCategory());
     }
+
+    public function findBySlug($slug, $params = [])
+    {
+        return $this->prepareQuery($params)->where('slug', $slug)->first();
+    }
 }

@@ -10,7 +10,7 @@ class CollectionPostContent extends Model
 {
     use HasFactory;
 
-    protected $table = 'content_post_contents';
+    protected $table = 'collection_post_contents';
 
     protected $fillable = [
         'post_id',

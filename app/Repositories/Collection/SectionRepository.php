@@ -12,4 +12,9 @@ class SectionRepository extends BaseRepository implements BaseRepositoryInterfac
     {
         parent::__construct(new CollectionSection());
     }
+
+    public function findBySlug($slug, $params = [])
+    {
+        return $this->prepareQuery($params)->where('slug', $slug)->first();
+    }
 }
