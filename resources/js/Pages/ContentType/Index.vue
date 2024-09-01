@@ -108,12 +108,14 @@ const deleteContentType = () => {
                                             {{ item.name }}
                                         </div>
                                     </td>
-                                    <td class="whitespace-nowrap px-6 py-4">
-                                        <div
+                                    <td
+                                        class="flex justify-center whitespace-nowrap px-6 py-4"
+                                    >
+                                        <span
                                             class="rounded-lg bg-green-400 px-2 py-1 text-center text-sm font-semibold uppercase text-white"
                                         >
                                             {{ item.type }}
-                                        </div>
+                                        </span>
                                     </td>
                                     <td class="whitespace-normal px-6 py-4">
                                         <div
