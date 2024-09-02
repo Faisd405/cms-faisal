@@ -6,16 +6,6 @@ use App\Http\Controllers\PublicApi\Collection\SectionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::group(['prefix' => 'auth', 'as' => 'auth.'], function () {
-    Route::post('/login', [AuthController::class, 'login'])->name('login');
-});
-
-Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/user', function (Request $request) {
-        return $request->user();
-    });
-});
-
 Route::get('/pages', [PageController::class, 'index'])->name('pages.index');
 Route::get('/pages/{slug}', [PageController::class, 'show'])->name('pages.show');
 
