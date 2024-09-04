@@ -24,7 +24,7 @@ return new class extends Migration
             // Add foreign key
             $table->foreign('post_id')->references('id')->on('collection_posts');
             $table->foreign('content_type_field_id')->references('id')->on('content_type_fields');
-            $table->foreign('localization_id')->references('id')->on('localizations');
+            $table->foreign('localization_id')->references('id')->on('languages');
         });
     }
 

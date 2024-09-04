@@ -6,6 +6,7 @@ use App\Http\Controllers\PublicApi\Collection\SectionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+// Public API
 Route::get('/pages', [PageController::class, 'index'])->name('pages.index');
 Route::get('/pages/{slug}', [PageController::class, 'show'])->name('pages.show');
 

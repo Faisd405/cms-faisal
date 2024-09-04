@@ -5,6 +5,7 @@ use App\Http\Controllers\Collection\PostController;
 use App\Http\Controllers\Collection\SectionController;
 use App\Http\Controllers\ContentTypeController;
 use App\Http\Controllers\ContentTypeFieldController;
+use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\PageController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -27,6 +28,19 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
+
+    Route::group(['prefix' => 'localization', 'as' => 'localization.'], function () {
+        Route::group(['prefix' => 'languages', 'as' => 'languages.'], function () {
+            Route::put('/{languageId}/change-default}', [LanguageController::class, 'changeDefault'])->name('change-default');
+
+            Route::get('/', [LanguageController::class, 'index'])->name('index');
+            Route::get('/create', [LanguageController::class, 'create'])->name('create');
+            Route::post('/', [LanguageController::class, 'store'])->name('store');
+            Route::get('/{languageId}/edit', [LanguageController::class, 'edit'])->name('edit');
+            Route::put('/{languageId}', [LanguageController::class, 'update'])->name('update');
+            Route::delete('/{languageId}', [LanguageController::class, 'destroy'])->name('destroy');
+        });
+    });
 
     Route::group(['prefix' => 'content-types', 'as' => 'content-types.'], function () {
         Route::get('/', [ContentTypeController::class, 'index'])->name('index');
