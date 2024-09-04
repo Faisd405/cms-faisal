@@ -17,17 +17,10 @@
         </template>
 
         <div class="mt-8 md:col-span-2">
-            <FormPage :item="pages" :list-content-types="listContentTypes" />
-        </div>
-
-        <div v-if="pages.id != null">
-            <hr class="mt-8 border border-slate-600" />
-            <div class="mt-8 md:col-span-2">
-                <FormContent
-                    :item="pages"
-                    :update-url="`/pages/${props.item.id}/content`"
-                />
-            </div>
+            <FormContent
+                :item="pages"
+                :update-url="`/pages/${props.item.id}/content`"
+            />
         </div>
     </AppLayout>
 </template>
@@ -35,7 +28,6 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue'
 import { Link } from '@inertiajs/vue3'
-import FormPage from '@/Components/Partials/Page/FormPage.vue'
 import FormContent from '@/Components/Partials/Page/FormContent.vue'
 import { onBeforeMount, ref } from 'vue'
 

@@ -24,19 +24,13 @@ class PageController extends BaseController
     public function index(Request $request)
     {
         $data['list'] = $this->service->getAll($request->all());
-
-        return $this->dynamicSuccessResponse('Page/Index', $data, 'inertia');
-    }
-
-    public function create()
-    {
         $data['contentTypes'] = $this->contentTypeService->getAll([
             'filter' => [
                 'type' => ContentType::PAGE->value
             ]
         ], false);
 
-        return $this->dynamicSuccessResponse('Page/Form', $data, 'inertia');
+        return $this->dynamicSuccessResponse('Page/Index', $data, 'inertia');
     }
 
     public function store(Request $request)

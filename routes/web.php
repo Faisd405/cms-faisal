@@ -47,7 +47,6 @@ Route::middleware([
         Route::match(['post', 'put'], '/{pageId}/content', [PageController::class, 'updateContent'])->name('update-content');
 
         Route::get('/', [PageController::class, 'index'])->name('index');
-        Route::get('/create', [PageController::class, 'create'])->name('create');
         Route::post('/', [PageController::class, 'store'])->name('store');
         Route::get('/{pageId}/edit', [PageController::class, 'edit'])->name('edit');
         Route::put('/{pageId}', [PageController::class, 'update'])->name('update');
