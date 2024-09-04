@@ -24,7 +24,7 @@ class PageRequest extends FormRequest
         $rules = [
             'title' => 'required',
             'slug' => 'required',
-            'is_active' => 'required',
+            'is_active' => 'nullable',
             'published_at' => 'nullable|date',
         ];
 
