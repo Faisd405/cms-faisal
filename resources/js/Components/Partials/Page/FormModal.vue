@@ -111,7 +111,7 @@ watch(
                     />
                     <InputError :message="form.errors.slug" class="mt-2" />
                 </div>
-                <div class="col-span-6">
+                <div v-if="props.updateId === null" class="col-span-6">
                     <InputLabel for="content_type_id" value="Content Type" />
                     <SelectInput
                         id="content_type_id"

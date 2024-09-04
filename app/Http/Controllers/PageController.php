@@ -33,7 +33,7 @@ class PageController extends BaseController
         return $this->dynamicSuccessResponse('Page/Index', $data, 'inertia');
     }
 
-    public function store(Request $request)
+    public function store(PageRequest $request)
     {
         $createData = $this->service->create($request->all());
 

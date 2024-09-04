@@ -21,11 +21,17 @@ class PageRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        $rules = [
             'title' => 'required',
             'slug' => 'required',
             'is_active' => 'required',
             'published_at' => 'nullable|date',
         ];
+
+        if ($this->method() === 'POST') {
+            $rules['content_type_id'] = 'required';
+        }
+
+        return $rules;
     }
 }
