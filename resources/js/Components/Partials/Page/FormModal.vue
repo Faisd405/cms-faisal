@@ -38,9 +38,9 @@ const props = defineProps({
 })
 
 const submitData = () => {
-    if (props.updateId.value !== null) {
+    if (props.updateId !== null) {
         axios
-            .put(route('pages.update', props.updateId.value), form.data())
+            .put(route('pages.update', props.updateId), form.data())
             .then(() => {})
             .catch((err) => {
                 if (err.response.status === 422) {
