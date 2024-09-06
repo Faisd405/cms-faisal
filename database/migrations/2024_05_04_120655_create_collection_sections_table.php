@@ -17,7 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('updated_by')->nullable();
             $table->unsignedBigInteger('deleted_by')->nullable();
 
-            $table->unsignedBigInteger('post_content_type_id')->nullable();
+            $table->unsignedBigInteger('post_content_type_id');
 
             $table->string('title');
             $table->string('slug');

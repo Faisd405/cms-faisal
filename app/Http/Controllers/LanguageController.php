@@ -54,11 +54,4 @@ class LanguageController extends BaseController
 
         return $this->dynamicSuccessResponse('language.index', [], 'redirect');
     }
-
-    public function changeDefault($languageId)
-    {
-        $this->service->changeDefaultLanguage($languageId);
-
-        return $this->dynamicSuccessResponse('language.index', [], 'redirect');
-    }
 }

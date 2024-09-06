@@ -20,6 +20,10 @@ class CollectionPostContent extends Model
         'order'
     ];
 
+    protected $casts = [
+        'value' => 'array'
+    ];
+
     public function post()
     {
         return $this->belongsTo(CollectionPost::class, 'post_id');

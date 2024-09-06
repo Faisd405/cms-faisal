@@ -15,8 +15,19 @@ class LanguageService extends BaseService implements BaseServiceInterface
         $this->repository = new LanguageRepository;
     }
 
-    public function changeDefaultLanguage($languageId)
+    public function create($data)
     {
-        $this->repository->changeDefaultLanguage($languageId);
+        $data['iso_code'] = strtolower($data['iso_code']);
+
+        return $this->repository->create($data);
+    }
+
+    public function update($id, $data)
+    {
+        $data['iso_code'] = strtolower($data['iso_code']);
+
+        $this->repository->update($id, $data);
+
+        return $this->repository->find($id);
     }
 }

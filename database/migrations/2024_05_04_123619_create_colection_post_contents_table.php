@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('post_id');
             $table->unsignedBigInteger('content_type_field_id');
-            $table->unsignedBigInteger('localization_id')->nullable();
+            $table->unsignedBigInteger('localization_id');
 
             $table->text('value')->nullable();
             $table->unsignedInteger('order')->default(0);

@@ -4,6 +4,7 @@ namespace App\Repositories\Page;
 
 use App\Base\BaseRepository;
 use App\Base\Construct\BaseRepositoryInterface;
+use App\Models\Datamaster\Language;
 use App\Models\Page\Page;
 use App\Models\Page\PageContent;
 
@@ -25,6 +26,7 @@ class PageRepository extends BaseRepository implements BaseRepositoryInterface
                 [
                     'page_id' => $pageId,
                     'content_type_field_id' => $value['content_type_field_id'],
+                    'localization_id' => $content['localeLanguage'],
                 ],
                 [
                     'value' => $value['value'],
@@ -39,6 +41,20 @@ class PageRepository extends BaseRepository implements BaseRepositoryInterface
         return true;
     }
 
+    public function getAll(array $params = [], bool $withPaginate = true)
+    {
+        $model = $this->prepareQuery($params);
+
+        if (isset($params['filter']['localization_id'])) {
+            $model = $model->WhereContentLocalization($params['filter']['localization_id']);
+            unset($params['filter']['localization_id']);
+        }
+
+        return $withPaginate
+            ? $model->paginate($params['limit'] ?? 15)
+            : $model->get();
+    }
+
     public function deleteContentByFieldId($fieldId)
     {
         return $this->contentModel->where('content_type_field_id', $fieldId)->delete();
@@ -51,6 +67,25 @@ class PageRepository extends BaseRepository implements BaseRepositoryInterface
 
     public function findBySlug($slug, $params = [])
     {
-        return $this->prepareQuery($params)->where('slug', $slug)->first();
+        $query = $this->prepareQuery($params);
+
+        if (isset($params['filter']['localization_id'])) {
+            $query = $query->WhereContentLocalization($params['filter']['localization_id']);
+            unset($params['filter']['localization_id']);
+        }
+
+        return $query->where('slug', $slug)->first();
+    }
+
+    public function find(int $id, array $params = [])
+    {
+        $query = $this->prepareQuery($params);
+
+        if (isset($params['filter']['localization_id'])) {
+            $query = $query->WhereContentLocalization($params['filter']['localization_id']);
+            unset($params['filter']['localization_id']);
+        }
+
+        return $query->find($id);
     }
 }

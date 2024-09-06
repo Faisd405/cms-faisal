@@ -26,7 +26,7 @@ class PageController extends BaseController
         return $this->successResponse($data, 'Successfully get list pages');
     }
 
-    public function show($slug)
+    public function show($slug, Request $request)
     {
         $data['item'] = $this->service->findBySlug($slug, [
             'with' => ['contentValue'],

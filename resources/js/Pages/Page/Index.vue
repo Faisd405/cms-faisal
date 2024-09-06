@@ -113,6 +113,12 @@ onBeforeMount(() => {
                                         scope="col"
                                         class="px-6 py-3 text-center"
                                     >
+                                        Content Type
+                                    </th>
+                                    <th
+                                        scope="col"
+                                        class="px-6 py-3 text-center"
+                                    >
                                         Actions
                                     </th>
                                 </tr>
@@ -139,6 +145,13 @@ onBeforeMount(() => {
                                         <div class="text-sm text-gray-900">
                                             {{ item.slug }}
                                         </div>
+                                    </td>
+                                    <td class="whitespace-nowrap px-6 py-4">
+                                        <span
+                                            class="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold uppercase leading-5 text-green-800"
+                                        >
+                                            {{ item.content_type.name }}
+                                        </span>
                                     </td>
                                     <td class="whitespace-normal px-6 py-4">
                                         <div

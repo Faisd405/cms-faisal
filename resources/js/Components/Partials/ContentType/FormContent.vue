@@ -10,6 +10,7 @@ import Checkbox from '@/Components/Form/Checkbox.vue'
 import Radio from '@/Components/Form/Radio.vue'
 import TinyMce from '@/Components/Form/TinyMce.vue'
 import axios from '@/libs/axios'
+import { object } from 'zod'
 
 const contentTypeFields = ref({})
 
@@ -29,6 +30,10 @@ const props = defineProps({
     updateUrl: {
         type: String,
         default: ''
+    },
+    localeLanguage: {
+        type: Object,
+        default: () => ({})
     }
 })
 
@@ -59,6 +64,8 @@ function submitData() {
             field.content_type_field_id
         )
     })
+
+    formData.append('localeLanguage', props.localeLanguage.id)
 
     axios
         .post(`${props.updateUrl}`, formData, {
@@ -124,7 +131,7 @@ onBeforeMount(() => {
             <div
                 v-for="(itemField, key) in contentTypeFields"
                 :key="key"
-                class="col-span-6 md:col-span-4"
+                class="col-span-6"
             >
                 <InputLabel :for="itemField.name" :value="itemField.label" />
                 <TextareaInput

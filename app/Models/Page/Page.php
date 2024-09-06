@@ -50,4 +50,11 @@ class Page extends Model
     {
         return $this->morphOne(SeoMeta::class, 'seoable');
     }
+
+    public function scopeWhereContentLocalization($query, $localizationId)
+    {
+        return $query->with(['contentValue' => function ($query) use ($localizationId) {
+            $query->where('localization_id', $localizationId);
+        }]);
+    }
 }

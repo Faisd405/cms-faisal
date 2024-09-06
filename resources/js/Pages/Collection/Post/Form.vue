@@ -49,7 +49,7 @@
 import AppLayout from '@/Layouts/AppLayout.vue'
 import { Link } from '@inertiajs/vue3'
 import FormCollectionPost from '@/Components/Partials/Collection/FormPost.vue'
-import FormContent from '@/Components/Partials/Page/FormContent.vue'
+import FormContent from '@/Components/Partials/ContentType/FormContent.vue'
 import { onBeforeMount, ref } from 'vue'
 
 const posts = ref([])

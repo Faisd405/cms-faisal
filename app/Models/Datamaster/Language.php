@@ -21,4 +21,9 @@ class Language extends Model
         'is_rtl' => 'boolean',
         'is_default' => 'boolean',
     ];
+
+    public function scopeDefault($query)
+    {
+        return $query->where('is_default', true);
+    }
 }

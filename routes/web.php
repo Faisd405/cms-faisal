@@ -31,8 +31,6 @@ Route::middleware([
 
     Route::group(['prefix' => 'localization', 'as' => 'localization.'], function () {
         Route::group(['prefix' => 'languages', 'as' => 'languages.'], function () {
-            Route::put('/{languageId}/change-default}', [LanguageController::class, 'changeDefault'])->name('change-default');
-
             Route::get('/', [LanguageController::class, 'index'])->name('index');
             Route::get('/create', [LanguageController::class, 'create'])->name('create');
             Route::post('/', [LanguageController::class, 'store'])->name('store');
