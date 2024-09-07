@@ -42,4 +42,11 @@ class CollectionPost extends Model
     {
         return $this->hasMany(CollectionPostContent::class, 'post_id');
     }
+
+    public function scopeWhereContentLocalization($query, $localizationId)
+    {
+        return $query->with(['contentValue' => function ($query) use ($localizationId) {
+            $query->where('localization_id', $localizationId);
+        }]);
+    }
 }

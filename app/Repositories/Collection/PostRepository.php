@@ -25,6 +25,7 @@ class PostRepository extends BaseRepository implements BaseRepositoryInterface
                 [
                     'post_id' => $postId,
                     'content_type_field_id' => $value['content_type_field_id'],
+                    'localization_id' => $content['localeLanguage'],
                 ],
                 [
                     'value' => $value['value'],
@@ -58,6 +59,25 @@ class PostRepository extends BaseRepository implements BaseRepositoryInterface
 
     public function findBySlug($slug, $params = [])
     {
-        return $this->prepareQuery($params)->where('slug', $slug)->first();
+        $query = $this->prepareQuery($params);
+
+        if (isset($params['filter']['localization_id'])) {
+            $query = $query->WhereContentLocalization($params['filter']['localization_id']);
+            unset($params['filter']['localization_id']);
+        }
+
+        return $query->where('slug', $slug)->first();
+    }
+
+    public function find(int $id, array $params = [])
+    {
+        $query = $this->prepareQuery($params);
+
+        if (isset($params['filter']['localization_id'])) {
+            $query = $query->WhereContentLocalization($params['filter']['localization_id']);
+            unset($params['filter']['localization_id']);
+        }
+
+        return $query->find($id);
     }
 }

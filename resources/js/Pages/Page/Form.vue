@@ -10,8 +10,7 @@
                         Pages
                     </Link>
                     /
-                    <span v-if="pages.id != null"> Update </span>
-                    <span v-else> Create </span>
+                    <span> Update Content </span>
                 </h2>
             </div>
         </template>

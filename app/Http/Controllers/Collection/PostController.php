@@ -71,11 +71,11 @@ class PostController extends BaseController
         $data['languages'] = $this->languageService->getAll([], false);
 
         if ($request->has('locale')) {
-            $data['locale'] = $data['languages']->where('iso_code', strtolower($request->get('locale')))->pluck('iso_code')->first();
+            $data['locale'] = $data['languages']->where('iso_code', strtolower($request->get('locale')))->first();
         }
 
         if (empty($data['locale'])) {
-            $data['locale'] = $data['languages']->where('is_default', true)->pluck('iso_code')->first();
+            $data['locale'] = $data['languages']->where('is_default', true)->first();
         }
 
         $data['section'] = $this->sectionService->find($sectionId);
@@ -86,6 +86,9 @@ class PostController extends BaseController
 
         $data['item'] = $this->service->find($postId, [
             'with' => ['contentType.fields', 'contentValue.contentTypeField'],
+            'filter' => [
+                'localization_id' => $data['locale']->id
+            ]
         ]);
 
         if (!$data['item']) {
