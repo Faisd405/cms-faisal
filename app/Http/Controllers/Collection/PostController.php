@@ -38,9 +38,7 @@ class PostController extends BaseController
         }
 
         $data['list'] = $this->service->getAll([
-            'filter' => [
-                'section_id' => $sectionId,
-            ],
+            'section_id' => $sectionId,
             ...$request->all()
         ]);
 

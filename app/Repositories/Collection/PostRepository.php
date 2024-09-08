@@ -57,16 +57,24 @@ class PostRepository extends BaseRepository implements BaseRepositoryInterface
         })->get();
     }
 
-    public function findBySlug($slug, $params = [])
+    public function findBySlug($slugSection, $slug, $params = [])
     {
         $query = $this->prepareQuery($params);
 
-        if (isset($params['filter']['localization_id'])) {
-            $query = $query->WhereContentLocalization($params['filter']['localization_id']);
-            unset($params['filter']['localization_id']);
+        if (isset($params['frontend_service']) && $params['frontend_service']) {
+            $query = $this->selectRelationData($query, $params);
+            $query = $query->select('id', 'slug', 'section_id');
         }
 
-        return $query->where('slug', $slug)->first();
+        $query = $query->whereHas('section', function ($query) use ($slugSection) {
+            $query->where('slug', $slugSection);
+        })->where('slug', $slug)->first();
+
+        if ($query && isset($params['append']) && in_array('content', $params['append'])) {
+            $query->content = $query->getValueAttribute();
+        }
+
+        return $query;
     }
 
     public function find(int $id, array $params = [])
@@ -79,5 +87,43 @@ class PostRepository extends BaseRepository implements BaseRepositoryInterface
         }
 
         return $query->find($id);
+    }
+
+    public function getAll(array $params = [], bool $withPaginate = true)
+    {
+        $model = $this->prepareQuery($params);
+
+        if (isset($params['section_id'])) {
+            $model = $model->where('section_id', $params['section_id']);
+        }
+
+        return $withPaginate
+            ? $model->paginate($params['limit'] ?? 15)
+            : $model->get();
+    }
+
+    private function selectRelationData($query, $params)
+    {
+        $query = $query->with(['contentValue' => function ($contentValue) use ($params) {
+            $contentValue->select('id', 'page_id', 'content_type_field_id', 'value', 'localization_id');
+
+            if (isset($params['filter']['localization_id'])) {
+                $contentValue->where('localization_id', $params['filter']['localization_id']);
+            }
+        }]);
+
+        $query = $query->with(['contentValue.contentTypeField' => function ($contentValue) use ($params) {
+            $contentValue->select('id', 'content_type_id', 'name', 'type');
+        }]);
+
+        $query = $query->with(['contentType' => function ($fields) {
+            $fields->select('id');
+        }]);
+
+        $query = $query->with(['contentType.fields' => function ($fields) {
+            $fields->select('id', 'content_type_id', 'name', 'type');
+        }]);
+
+        return $query;
     }
 }

@@ -30,4 +30,14 @@ class LanguageService extends BaseService implements BaseServiceInterface
 
         return $this->repository->find($id);
     }
+
+    public function findByIsoCode($isoCode)
+    {
+        return $this->repository->findByIsoCode($isoCode);
+    }
+
+    public function findByDefault()
+    {
+        return $this->repository->findByDefault();
+    }
 }

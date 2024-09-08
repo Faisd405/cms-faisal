@@ -44,4 +44,14 @@ class LanguageRepository extends BaseRepository implements BaseRepositoryInterfa
         $this->model->where('is_default', true)->update(['is_default' => false]);
         $this->model->where('id', $languageId)->update(['is_default' => true]);
     }
+
+    public function findByIsoCode(string $isoCode)
+    {
+        return $this->model->where('iso_code', $isoCode)->first();
+    }
+
+    public function findByDefault()
+    {
+        return $this->model->where('is_default', true)->first();
+    }
 }

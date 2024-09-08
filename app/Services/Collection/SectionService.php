@@ -18,8 +18,8 @@ class SectionService extends BaseService implements BaseServiceInterface
         $this->repository = $repository;
     }
 
-    public function findBySlug($id, $params = [])
+    public function findBySlug($slug, $params = [])
     {
-        return $this->repository->findBySlug($id, $params);
+        return $this->repository->findBySlug($slug, $params);
     }
 }

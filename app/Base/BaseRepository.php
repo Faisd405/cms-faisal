@@ -14,6 +14,8 @@ class BaseRepository implements BaseRepositoryInterface
     protected array $withCount = [];
     protected array $searchable = [];
     protected array $filterable = [];
+    protected array $selectable = [];
+    protected array $appendable = [];
     protected string $sortable = 'id:asc';
 
     public function __construct(Model $model)
@@ -114,6 +116,10 @@ class BaseRepository implements BaseRepositoryInterface
             $this->applySearch($model, $params['search']);
         }
 
+        if (!empty($params['select']) && array_intersect($params['select'], $this->selectable)) {
+            $model->select($params['select']);
+        }
+
         $this->applySorting($model, $params['sort'] ?? $this->sortable);
 
         if ($this->withTrashed) {
@@ -125,6 +131,15 @@ class BaseRepository implements BaseRepositoryInterface
         }
 
         return $model;
+    }
+
+    public function appendCollection(array $data)
+    {
+        foreach ($this->appendable as $appendable) {
+            $data[$appendable] = $this->model->{$appendable};
+        }
+
+        return $data;
     }
 
     protected function applyFilters($model, $filter)

@@ -57,4 +57,28 @@ class Page extends Model
             $query->where('localization_id', $localizationId);
         }]);
     }
+
+    public function getValueAttribute()
+    {
+        $contentType = $this->contentType;
+        $contentValues = $this->contentValue;
+
+        if (!$contentType) {
+            return [];
+        }
+
+        $data = [];
+
+        foreach ($contentType->fields as $field) {
+            $contentValue = $contentValues->where('content_type_field_id', $field->id)->first();
+
+            if ($contentValue) {
+                $data[$field->name] = $contentValue->value;
+            } else {
+                $data[$field->name] = null;
+            }
+        }
+
+        return $data;
+    }
 }
