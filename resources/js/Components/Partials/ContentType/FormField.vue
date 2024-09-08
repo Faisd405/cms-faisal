@@ -282,6 +282,14 @@
                                     Searchable
                                 </Checkbox>
                             </div>
+                            <div class="">
+                                <Checkbox
+                                    v-model:checked="form.is_localizable"
+                                    value="is_localizable"
+                                >
+                                    Localizable
+                                </Checkbox>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -372,6 +380,7 @@ const form = useForm({
     is_required: false,
     is_unique: false,
     is_searchable: false,
+    is_localizable: false,
     options: []
 })
 
@@ -389,6 +398,7 @@ const showContentTypeFieldModal = (fieldData = null) => {
         form.is_required = fieldData.is_required
         form.is_unique = fieldData.is_unique
         form.is_searchable = fieldData.is_searchable
+        form.is_localizable = fieldData.is_localizable
 
         if (fieldData.options) {
             form.options = fieldData.options

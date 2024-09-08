@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('post_id');
             $table->unsignedBigInteger('content_type_field_id');
-            $table->unsignedBigInteger('localization_id')->nullable();
+            $table->unsignedBigInteger('localization_id');
 
             $table->text('value')->nullable();
             $table->unsignedInteger('order')->default(0);
@@ -24,7 +24,7 @@ return new class extends Migration
             // Add foreign key
             $table->foreign('post_id')->references('id')->on('collection_posts');
             $table->foreign('content_type_field_id')->references('id')->on('content_type_fields');
-            $table->foreign('localization_id')->references('id')->on('localizations');
+            $table->foreign('localization_id')->references('id')->on('languages');
         });
     }
 

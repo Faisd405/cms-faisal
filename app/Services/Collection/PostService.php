@@ -47,8 +47,8 @@ class PostService extends BaseService implements BaseServiceInterface
         return $this->repository->getAllBySectionSlug($slug);
     }
 
-    public function findBySlug($id, $params = [])
+    public function findBySlug($slugSection, $slug, $params = [])
     {
-        return $this->repository->findBySlug($id, $params);
+        return $this->repository->findBySlug($slugSection, $slug, $params);
     }
 }

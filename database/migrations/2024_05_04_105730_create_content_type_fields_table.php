@@ -26,6 +26,7 @@ return new class extends Migration
             $table->boolean('is_required')->default(false);
             $table->boolean('is_unique')->default(false);
             $table->boolean('is_searchable')->default(false);
+            $table->boolean('is_localizable')->default(false);
             $table->timestamps();
 
             // Add foreign key

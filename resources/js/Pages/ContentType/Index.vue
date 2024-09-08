@@ -112,7 +112,7 @@ const deleteContentType = () => {
                                         class="flex justify-center whitespace-nowrap px-6 py-4"
                                     >
                                         <span
-                                            class="rounded-lg bg-green-400 px-2 py-1 text-center text-sm font-semibold uppercase text-white"
+                                            class="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold uppercase leading-5 text-green-800"
                                         >
                                             {{ item.type }}
                                         </span>

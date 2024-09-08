@@ -6,10 +6,13 @@ import { FwbModal } from 'flowbite-vue'
 import { ref } from 'vue'
 import PrimaryButton from '@/Components/Button/PrimaryButton.vue'
 import SecondaryButton from '@/Components/Button/SecondaryButton.vue'
-import { router } from '@inertiajs/vue3'
+import { Link, router } from '@inertiajs/vue3'
+import FormModal from '@/Components/Partials/Collection/FormModal.vue'
 
 const isShowDeleteModal = ref(false)
+const isShowCreateModal = ref(false)
 const tempId = ref(null)
+const tempData = ref({})
 
 const props = defineProps({
     list: {
@@ -25,6 +28,18 @@ const props = defineProps({
 const openDeleteModal = (id) => {
     isShowDeleteModal.value = true
     tempId.value = JSON.parse(JSON.stringify(id))
+}
+
+const openUpdateModal = (data) => {
+    isShowCreateModal.value = true
+    tempId.value = JSON.parse(JSON.stringify(data.id))
+    tempData.value = JSON.parse(JSON.stringify(data))
+}
+
+const openCreateModal = () => {
+    isShowCreateModal.value = true
+    tempId.value = null
+    tempData.value = {}
 }
 
 const deletePost = () => {
@@ -46,16 +61,25 @@ const deletePost = () => {
     <AppLayout title="Posts">
         <template #header>
             <div class="flex justify-between">
-                <h2 class="text-xl font-semibold leading-tight text-gray-800">
-                    Posts
+                <h2 class="text-xl font-semibold leading-tight text-slate-800">
+                    <Link
+                        href="/collection/sections"
+                        class="text-blue-400 hover:text-blue-800"
+                    >
+                        Collection
+                    </Link>
+                    /
+                    <span>
+                        {{ props.section.title }}
+                    </span>
                 </h2>
                 <div>
-                    <a
-                        :href="`/collection/sections/${section.id}/posts/create`"
+                    <button
                         class="rounded-md border border-slate-800 bg-slate-800 px-6 py-2 uppercase text-pallet-lighten transition duration-300 ease-in-out hover:bg-pallet-lighten hover:text-slate-800 dark:border-slate-800"
+                        @click="openCreateModal"
                     >
                         <i class="ion ion-md-add"></i> Add Post
-                    </a>
+                    </button>
                 </div>
             </div>
         </template>
@@ -125,10 +149,16 @@ const deletePost = () => {
                                         >
                                             <a
                                                 :href="`/collection/sections/${item.section_id}/posts/${item.id}/edit`"
+                                                class="mb-2 me-2 rounded-lg bg-blue-500 px-6 py-1.5 text-sm font-medium uppercase text-white hover:bg-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-300"
+                                            >
+                                                Update Content
+                                            </a>
+                                            <button
                                                 class="mb-2 me-2 rounded-lg bg-yellow-400 px-6 py-1.5 text-sm font-medium uppercase text-white hover:bg-yellow-500 focus:outline-none focus:ring-4 focus:ring-yellow-300"
+                                                @click="openUpdateModal(item)"
                                             >
                                                 Edit
-                                            </a>
+                                            </button>
                                             <button
                                                 class="mb-2 me-2 rounded-lg bg-red-700 px-6 py-1.5 text-sm font-medium uppercase text-white hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300"
                                                 @click="
@@ -174,5 +204,14 @@ const deletePost = () => {
                 </div>
             </template>
         </FwbModal>
+
+        <FormModal
+            :list-content-types="listContentTypes"
+            :is-show-create-modal="isShowCreateModal"
+            :update-id="tempId"
+            :section-id="section.id"
+            :update-data="tempData"
+            @close="isShowCreateModal = false"
+        />
     </AppLayout>
 </template>

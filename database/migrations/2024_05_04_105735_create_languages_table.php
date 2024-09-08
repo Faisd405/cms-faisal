@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('localizations', function (Blueprint $table) {
+        Schema::create('languages', function (Blueprint $table) {
             $table->id();
 
             $table->string('iso_code')->unique();
             $table->string('name');
             $table->string('native_name');
             $table->boolean('is_rtl')->default(false);
-            $table->boolean('is_default')->default(true);
+            $table->boolean('is_default')->default(false);
 
             $table->timestamps();
         });
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('localizations');
+        Schema::dropIfExists('languages');
     }
 };

@@ -4,7 +4,6 @@ import PrimaryButton from '@/Components/Button/PrimaryButton.vue'
 import SecondaryButton from '@/Components/Button/SecondaryButton.vue'
 import InputLabel from '@/Components/Form/InputLabel.vue'
 import TextInput from '@/Components/Form/TextInput.vue'
-import SelectInput from '@/Components/Form/SelectInput.vue'
 import InputError from '@/Components/Form/InputError.vue'
 import { FwbModal } from 'flowbite-vue'
 import { transformSlug } from '@/Helpers/textTransform'
@@ -14,12 +13,15 @@ const emit = defineEmits(['close'])
 
 const form = useForm({
     title: '',
-    slug: '',
-    content_type_id: 0
+    slug: ''
 })
 
 const props = defineProps({
     updateId: {
+        type: Number,
+        default: null
+    },
+    sectionId: {
         type: Number,
         default: null
     },
@@ -40,8 +42,16 @@ const props = defineProps({
 const submitData = () => {
     if (props.updateId !== null) {
         axios
-            .put(route('pages.update', props.updateId), form.data())
-            .then(() => {})
+            .put(
+                route('collection.sections.posts.update', {
+                    postId: props.updateId,
+                    sectionId: props.sectionId
+                }),
+                form.data()
+            )
+            .then(() => {
+                router.visit(route('collection.sections.posts.index'))
+            })
             .catch((err) => {
                 if (err.response.status === 422) {
                     form.errors = err.response.data.errors
@@ -52,9 +62,14 @@ const submitData = () => {
     }
 
     axios
-        .post(route('pages.store'), form.data())
+        .post(
+            route('collection.sections.posts.store', {
+                sectionId: props.section.id
+            }),
+            form.data()
+        )
         .then(() => {
-            router.visit(route('pages.index'))
+            router.visit(route('collection.sections.posts.index'))
         })
         .catch((err) => {
             if (err.response.status === 422) {
@@ -63,7 +78,7 @@ const submitData = () => {
         })
 }
 
-const transformSlugPage = (value) => {
+const transformSlugPost = (value) => {
     form.slug = transformSlug(value)
 }
 
@@ -72,7 +87,6 @@ const updateForm = (isUpdate) => {
     if (isUpdate) {
         form.title = props.updateData.title
         form.slug = props.updateData.slug
-        form.content_type_id = props.updateData.content_type_id
     }
 }
 
@@ -86,7 +100,7 @@ watch(
 
 <template>
     <FwbModal v-if="isShowCreateModal" @close="emit('close')">
-        <template #header> Create Page </template>
+        <template #header> Create Post </template>
         <template #body>
             <div class="grid grid-cols-6 gap-6">
                 <div class="col-span-6">
@@ -96,7 +110,7 @@ watch(
                         v-model="form.title"
                         type="text"
                         class="mt-1 block w-full"
-                        @input="transformSlugPage(form.title)"
+                        @input="transformSlugPost(form.title)"
                     />
                     <InputError :message="form.errors.title" class="mt-2" />
                 </div>
@@ -107,22 +121,9 @@ watch(
                         v-model="form.slug"
                         type="text"
                         class="mt-1 block w-full"
-                        @change="transformSlugPage(form.slug)"
+                        @change="transformSlugPost(form.slug)"
                     />
                     <InputError :message="form.errors.slug" class="mt-2" />
-                </div>
-                <div v-if="props.updateId === null" class="col-span-6">
-                    <InputLabel for="content_type_id" value="Content Type" />
-                    <SelectInput
-                        id="content_type_id"
-                        v-model="form.content_type_id"
-                        class="mt-1 block w-full"
-                        :options="listContentTypes"
-                    />
-                    <InputError
-                        :message="form.errors.content_type_id"
-                        class="mt-2"
-                    />
                 </div>
             </div>
         </template>

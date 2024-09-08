@@ -7,7 +7,7 @@ import { onBeforeMount, ref } from 'vue'
 import PrimaryButton from '@/Components/Button/PrimaryButton.vue'
 import SecondaryButton from '@/Components/Button/SecondaryButton.vue'
 import { router } from '@inertiajs/vue3'
-import FormModal from '@/Components/Partials/Page/FormModal.vue'
+import FormModal from '@/Components/Partials/Language/FormModal.vue'
 
 const isShowDeleteModal = ref(false)
 const isShowCreateModal = ref(false)
@@ -43,9 +43,9 @@ const openCreateModal = () => {
     tempData.value = {}
 }
 
-const deletePage = () => {
+const deleteLanguage = () => {
     axios
-        .delete(`/pages/${tempId.value}`)
+        .delete(`/localization/languages/${tempId.value}`)
         .then(() => {
             isShowDeleteModal.value = false
             router.reload()
@@ -64,18 +64,18 @@ onBeforeMount(() => {
 </script>
 
 <template>
-    <AppLayout title="Pages">
+    <AppLayout title="Languages">
         <template #header>
             <div class="flex justify-between">
                 <h2 class="text-xl font-semibold leading-tight text-gray-800">
-                    Pages
+                    Languages
                 </h2>
                 <div>
                     <button
                         class="rounded-md border border-slate-800 bg-slate-800 px-6 py-2 uppercase text-pallet-lighten transition duration-300 ease-in-out hover:bg-pallet-lighten hover:text-slate-800 dark:border-slate-800"
                         @click="openCreateModal"
                     >
-                        <i class="ion ion-md-add"></i> Add Page
+                        <i class="ion ion-md-add"></i> Add Language
                     </button>
                 </div>
             </div>
@@ -101,19 +101,25 @@ onBeforeMount(() => {
                                         scope="col"
                                         class="px-6 py-3 text-center"
                                     >
-                                        Title
+                                        ISO Code
                                     </th>
                                     <th
                                         scope="col"
                                         class="px-6 py-3 text-center"
                                     >
-                                        Slug
+                                        Name
                                     </th>
                                     <th
                                         scope="col"
                                         class="px-6 py-3 text-center"
                                     >
-                                        Content Type
+                                        Native Name
+                                    </th>
+                                    <th
+                                        scope="col"
+                                        class="px-6 py-3 text-center"
+                                    >
+                                        Default Language
                                     </th>
                                     <th
                                         scope="col"
@@ -138,31 +144,39 @@ onBeforeMount(() => {
                                         <div
                                             class="text-sm font-semibold text-gray-900"
                                         >
-                                            {{ item.title }}
+                                            {{ item.iso_code }}
                                         </div>
                                     </td>
                                     <td class="whitespace-nowrap px-6 py-4">
                                         <div class="text-sm text-gray-900">
-                                            {{ item.slug }}
+                                            {{ item.name }}
                                         </div>
                                     </td>
                                     <td class="whitespace-nowrap px-6 py-4">
-                                        <span
-                                            class="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold uppercase leading-5 text-green-800"
-                                        >
-                                            {{ item.content_type.name }}
-                                        </span>
+                                        <div class="text-sm text-gray-900">
+                                            {{ item.native_name }}
+                                        </div>
+                                    </td>
+                                    <td class="whitespace-nowrap px-6 py-4">
+                                        <div class="text-sm text-gray-900">
+                                            <span
+                                                v-if="item.is_default"
+                                                class="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800"
+                                            >
+                                                Yes
+                                            </span>
+                                            <span
+                                                v-else
+                                                class="inline-flex rounded-full bg-red-100 px-2 text-xs font-semibold leading-5 text-red-800"
+                                            >
+                                                No
+                                            </span>
+                                        </div>
                                     </td>
                                     <td class="whitespace-normal px-6 py-4">
                                         <div
                                             class="flex items-center justify-center"
                                         >
-                                            <a
-                                                :href="`/pages/${item.id}/edit`"
-                                                class="mb-2 me-2 rounded-lg bg-blue-500 px-6 py-1.5 text-sm font-medium uppercase text-white hover:bg-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-300"
-                                            >
-                                                Update Content
-                                            </a>
                                             <button
                                                 class="mb-2 me-2 rounded-lg bg-yellow-400 px-6 py-1.5 text-sm font-medium uppercase text-white hover:bg-yellow-500 focus:outline-none focus:ring-4 focus:ring-yellow-300"
                                                 @click="openUpdateModal(item)"
@@ -189,10 +203,10 @@ onBeforeMount(() => {
         </div>
 
         <FwbModal v-if="isShowDeleteModal" @close="isShowDeleteModal = false">
-            <template #header> Delete Page </template>
+            <template #header> Delete Language </template>
             <template #body>
                 <div class="text-center">
-                    Are you sure you want to delete this Page?
+                    Are you sure you want to delete this Language?
                 </div>
             </template>
             <template #footer>
@@ -207,7 +221,7 @@ onBeforeMount(() => {
                     <PrimaryButton
                         color="red"
                         type="button"
-                        @click="deletePage"
+                        @click="deleteLanguage"
                     >
                         Delete
                     </PrimaryButton>

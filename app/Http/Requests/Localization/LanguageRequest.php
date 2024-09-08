@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Page;
+namespace App\Http\Requests\Localization;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class PageRequest extends FormRequest
+class LanguageRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,18 +21,13 @@ class PageRequest extends FormRequest
      */
     public function rules(): array
     {
-        $rules = [
-            'title' => 'required',
-            'slug' => 'required',
-            'is_active' => 'nullable',
-            'published_at' => 'nullable|date',
-            'localization_id' => 'required',
+        return [
+            'iso_code' => 'required|string|max:2|unique:languages,iso_code'. (
+                $this->route('languageId') ? ',' . $this->route('languageId') : ''
+            ),
+            'name' => 'required|string|max:255',
+            'is_rtl' => 'nullable|boolean',
+            'is_default' => 'nullable|boolean',
         ];
-
-        if ($this->method() === 'POST') {
-            $rules['content_type_id'] = 'required';
-        }
-
-        return $rules;
     }
 }

@@ -40,7 +40,7 @@
                         class="mt-2"
                     />
                 </div>
-                <div class="col-span-6 sm:col-span-4">
+                <div v-if="updateId === null" class="col-span-6 sm:col-span-4">
                     <InputLabel
                         for="post_content_type_id"
                         value="Content Type for Post"

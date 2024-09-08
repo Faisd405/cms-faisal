@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Page;
+namespace App\Http\Requests\ContentType;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class PageRequest extends FormRequest
+class ContentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,18 +21,11 @@ class PageRequest extends FormRequest
      */
     public function rules(): array
     {
-        $rules = [
-            'title' => 'required',
-            'slug' => 'required',
-            'is_active' => 'nullable',
-            'published_at' => 'nullable|date',
-            'localization_id' => 'required',
+        return [
+            'item_content' => 'required|array',
+            'item_content.*.content_type_field_id' => 'required|integer|exists:content_type_fields,id',
+            'item_content.*.value' => 'nullable',
+            'localeLanguage' => 'required|integer|exists:languages,id',
         ];
-
-        if ($this->method() === 'POST') {
-            $rules['content_type_id'] = 'required';
-        }
-
-        return $rules;
     }
 }
