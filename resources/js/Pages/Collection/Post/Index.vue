@@ -6,7 +6,7 @@ import { FwbModal } from 'flowbite-vue'
 import { ref } from 'vue'
 import PrimaryButton from '@/Components/Button/PrimaryButton.vue'
 import SecondaryButton from '@/Components/Button/SecondaryButton.vue'
-import { router } from '@inertiajs/vue3'
+import { Link, router } from '@inertiajs/vue3'
 import FormModal from '@/Components/Partials/Collection/FormModal.vue'
 
 const isShowDeleteModal = ref(false)
@@ -61,8 +61,17 @@ const deletePost = () => {
     <AppLayout title="Posts">
         <template #header>
             <div class="flex justify-between">
-                <h2 class="text-xl font-semibold leading-tight text-gray-800">
-                    Posts
+                <h2 class="text-xl font-semibold leading-tight text-slate-800">
+                    <Link
+                        href="/collection/sections"
+                        class="text-blue-400 hover:text-blue-800"
+                    >
+                        Collection
+                    </Link>
+                    /
+                    <span>
+                        {{ props.section.title }}
+                    </span>
                 </h2>
                 <div>
                     <button

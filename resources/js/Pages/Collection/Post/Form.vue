@@ -4,10 +4,10 @@
             <div class="flex justify-between">
                 <h2 class="text-xl font-semibold leading-tight text-slate-800">
                     <Link
-                        href="/posts"
+                        href="/collection/sections"
                         class="text-blue-400 hover:text-blue-800"
                     >
-                        Posts
+                        Collection
                     </Link>
                     /
                     <Link
