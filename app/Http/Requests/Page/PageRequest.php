@@ -22,8 +22,8 @@ class PageRequest extends FormRequest
     public function rules(): array
     {
         $rules = [
-            'title' => 'required',
-            'slug' => 'required',
+            'title' => 'required|string',
+            'slug' => 'required|string|alpha_dash',
             'is_active' => 'nullable',
             'published_at' => 'nullable|date',
             'localization_id' => 'required',

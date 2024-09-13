@@ -44,9 +44,18 @@ class SectionController extends BaseController
         return $this->successResponse($data, 'Successfully get section');
     }
 
-    public function posts($sectionslug)
+    public function posts($sectionslug, Request $request)
     {
-        $data['list'] = $this->postService->getAllBySectionSlug($sectionslug);
+        $params = $request->validate([
+            'search' => 'sometimes|string',
+            'locale' => 'sometimes|string',
+            'limit' => 'sometimes|integer',
+            'page' => 'sometimes|integer',
+            'sort' => 'sometimes|string',
+            'sort_direction' => 'sometimes|string',
+        ]);
+
+        $data['list'] = $this->postService->getAllBySectionSlug($sectionslug, $params);
 
         return $this->successResponse($data, 'Successfully get list posts');
     }

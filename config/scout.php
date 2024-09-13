@@ -1,5 +1,8 @@
 <?php
 
+use App\Models\Collection\CollectionPost;
+use App\Models\Page\Page;
+
 return [
 
     /*
@@ -134,9 +137,28 @@ return [
         'host' => env('MEILISEARCH_HOST', 'http://localhost:7700'),
         'key' => env('MEILISEARCH_KEY'),
         'index-settings' => [
-            // 'users' => [
-            //     'filterableAttributes'=> ['id', 'name', 'email'],
-            // ],
+            Page::class => [
+                'sortableAttributes' => [
+                    'id',
+                    'published_at',
+                ],
+                'filterableAttributes' => [
+                    'title',
+                    'slug',
+                    'is_active',
+                ]
+            ],
+            CollectionPost::class => [
+                'sortableAttributes' => [
+                    'id',
+                    'order',
+                ],
+                'filterableAttributes' => [
+                    'title',
+                    'slug',
+                    'section_id',
+                ]
+            ],
         ],
     ],
 

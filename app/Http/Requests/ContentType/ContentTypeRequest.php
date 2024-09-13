@@ -21,9 +21,16 @@ class ContentTypeRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        $rules = [
             'name' => 'required|string|max:255',
+            'type' => 'required|string|in:page,collection,component',
             'description' => 'nullable|string|max:255',
         ];
+
+        if ($this->method() === 'POST') {
+            $rules['slug'] = 'required|string|max:255|alpha_dash|unique:content_types,slug';
+        }
+
+        return $rules;
     }
 }

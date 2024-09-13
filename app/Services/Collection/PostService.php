@@ -6,6 +6,7 @@ use App\Base\BaseService;
 use App\Base\Construct\BaseServiceInterface;
 use App\Repositories\ContentType\ContentTypeFieldRepository;
 use App\Repositories\Collection\PostRepository;
+use App\Repositories\Collection\SectionRepository;
 use App\Traits\UseAttachment;
 
 class PostService extends BaseService implements BaseServiceInterface
@@ -16,11 +17,15 @@ class PostService extends BaseService implements BaseServiceInterface
 
     protected $contentFieldRepository;
 
+    protected $sectionRepository;
+
     public function __construct(PostRepository $repository)
     {
         $this->repository = $repository;
 
         $this->contentFieldRepository = new ContentTypeFieldRepository();
+
+        $this->sectionRepository = new SectionRepository();
     }
 
     public function updateContent($postId, $content)
@@ -42,9 +47,15 @@ class PostService extends BaseService implements BaseServiceInterface
         return $this->repository->updateContent($postId, $content);
     }
 
-    public function getAllBySectionSlug($slug)
+    public function getAllBySectionSlug($sectionSlug, $params = [])
     {
-        return $this->repository->getAllBySectionSlug($slug);
+        $sectionId = $this->sectionRepository->findBySlug($sectionSlug, [
+            'select' => ['id', 'slug'],
+        ])->id;
+
+        $params['section_id'] = $sectionId;
+
+        return $this->repository->getAll($params);
     }
 
     public function findBySlug($slugSection, $slug, $params = [])

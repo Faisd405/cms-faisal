@@ -50,11 +50,17 @@ class PostRepository extends BaseRepository implements BaseRepositoryInterface
         return $this->contentModel->where('post_id', $postId)->where('content_type_field_id', $fieldId)->first();
     }
 
-    public function getAllBySectionSlug($slug, $params = [])
+    public function getAllBySectionSlug($sectionSlug, $params = [], $withPaginate = true)
     {
-        return $this->model->whereHas('section', function ($query) use ($slug) {
-            $query->where('slug', $slug);
-        })->get();
+        $model = $this->prepareQuery($params);
+
+        $model->whereHas('section', function ($query) use ($sectionSlug) {
+            $query->where('slug', $sectionSlug);
+        });
+
+        return $withPaginate
+            ? $model->paginate($params['limit'] ?? 15)
+            : $model->get();
     }
 
     public function findBySlug($slugSection, $slug, $params = [])

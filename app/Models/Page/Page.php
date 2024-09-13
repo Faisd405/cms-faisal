@@ -7,10 +7,12 @@ use App\Models\SeoMeta;
 use App\Traits\Model\UseTrackUserActions;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
+use Laravel\Scout\Searchable;
 
 class Page extends Model
 {
-    use HasFactory, UseTrackUserActions;
+    use HasFactory, UseTrackUserActions, Searchable;
 
     protected $fillable = [
         'created_by',
@@ -80,5 +82,33 @@ class Page extends Model
         }
 
         return $data;
+    }
+
+    public function toSearchableArray()
+    {
+        $array = $this->toArray();
+
+        if (!$this->contentType) {
+            return [
+                'id' => $array['id'],
+                'title' => $array['title'],
+                'slug' => $array['slug'],
+                'content' => [],
+            ];
+        }
+
+        $contentTypeFields = $this->contentType->fields->where('is_searchable', true)->pluck('name');
+
+        $array['content'] = $this->getValueAttribute();
+
+        $array['content'] = collect($array['content'])->filter(function ($value, $key) use ($contentTypeFields) {
+            return $contentTypeFields->contains($key);
+        })->values()->all();
+
+        return [
+            'title' => $array['title'],
+            'slug' => $array['slug'],
+            'content' => $array['content'],
+        ];
     }
 }

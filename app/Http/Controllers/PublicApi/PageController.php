@@ -28,6 +28,15 @@ class PageController extends BaseController
 
     public function index(Request $request)
     {
+        $request->validate([
+            'locale' => 'sometimes|string',
+            'limit' => 'sometimes|integer',
+            'page' => 'sometimes|integer',
+            'search' => 'sometimes|string',
+            'sort' => 'sometimes|string',
+            'sort_direction' => 'sometimes|string',
+        ]);
+
         $data['list'] = $this->service->getAll($request->all());
 
         return $this->successResponse($data, 'Successfully get list pages');

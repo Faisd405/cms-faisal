@@ -5,10 +5,11 @@ namespace App\Models\Collection;
 use App\Models\ContentType\ContentType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 
 class CollectionPost extends Model
 {
-    use HasFactory;
+    use HasFactory, Searchable;
 
     protected $table = 'collection_posts';
 
@@ -72,5 +73,25 @@ class CollectionPost extends Model
         }
 
         return $data;
+    }
+
+    public function toSearchableArray()
+    {
+        $array = $this->toArray();
+
+        $contentTypeFields = $this->contentType->fields->where('is_searchable', true)->pluck('name');
+
+        $array['content'] = $this->getValueAttribute();
+
+        $array['content'] = collect($array['content'])->filter(function ($value, $key) use ($contentTypeFields) {
+            return $contentTypeFields->contains($key);
+        })->values()->all();
+
+        return [
+            'title' => $array['title'],
+            'slug' => $array['slug'],
+            'section_id' => $array['section_id'],
+            'content' => $array['content'],
+        ];
     }
 }

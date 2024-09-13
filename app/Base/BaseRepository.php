@@ -96,9 +96,17 @@ class BaseRepository implements BaseRepositoryInterface
 
     // End BaseCore CRUD
 
-    protected function prepareQuery(array $params = [])
+    protected function prepareQuery(array $params = [], $model = null)
     {
-        $model = $this->model->query();
+        if (!$model) {
+            $model = $this->model->query();
+        }
+
+        if (!empty($params['search'])) {
+            $model = method_exists($this->model, 'toSearchableArray') && config('scout.driver', 'database') !== 'database'
+                ? $this->model->search($params['search'])
+                : $this->applySearch($model, $params['search']);
+        }
 
         if (!empty($this->with) || !empty($params['with'])) {
             $model->with(array_merge($this->with, $params['with'] ?? []));
@@ -110,10 +118,6 @@ class BaseRepository implements BaseRepositoryInterface
 
         if (!empty($params['filter'])) {
             $this->applyFilters($model, $params['filter']);
-        }
-
-        if (!empty($params['search'])) {
-            $this->applySearch($model, $params['search']);
         }
 
         if (!empty($params['select']) && array_intersect($params['select'], $this->selectable)) {
