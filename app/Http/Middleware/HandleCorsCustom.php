@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\Frontend;
+use App\Models\Domain;
 use Closure;
 use Fruitcake\Cors\CorsService;
 use Illuminate\Contracts\Container\Container;
@@ -77,7 +77,9 @@ class HandleCorsCustom
      */
     protected function hasMatchingPath(Request $request): bool
     {
-        $paths = $this->getPathsByHost($request->getHost());
+        // Get API Keys from the header
+        $apiKey = $request->header('X-API-KEY');
+        $paths = $this->getPathsByHost($request->getHost(), $apiKey);
 
         foreach ($paths as $path) {
             if ($path !== '/') {
@@ -92,15 +94,17 @@ class HandleCorsCustom
         return false;
     }
 
-    /**
-     * Get the CORS paths for the given host.
-     *
-     * @param  string  $host
-     * @return array
-     */
-    protected function getPathsByHost(string $host)
+    protected function getPathsByHost(string $host, string $apiKey): array
     {
-        $paths = Frontend::all()->pluck('domain', 'name')->toArray();
+        $domain = Domain::where('api_key', $apiKey)->first();
+
+        if (!$domain) {
+            return [];
+        }
+
+        $paths = [];
+        $paths[] = $domain->domain;
+        $paths = array_merge($paths, $domain->whitelist_domains);
 
         if (isset($paths[$host])) {
             return $paths[$host];

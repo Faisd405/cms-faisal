@@ -14,6 +14,7 @@ class Domain extends Model
         'description',
         'domain',
         'whitelist_domains',
+        'api_key',
         'locale',
         'timezone',
         'currency',

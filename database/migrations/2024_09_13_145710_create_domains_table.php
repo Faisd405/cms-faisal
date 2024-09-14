@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('description')->nullable();
             $table->string('domain');
             $table->text('whitelist_domains')->nullable();
+            $table->text('api_key')->nullable();
             $table->string('locale')->default('en');
             $table->string('timezone')->default('UTC');
             $table->string('currency')->default('USD');
