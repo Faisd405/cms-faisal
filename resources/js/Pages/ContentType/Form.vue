@@ -52,8 +52,7 @@ const props = defineProps({
         type: Object,
         default: () => ({
             id: null,
-            name: '',
-            description: ''
+            name: ''
         })
     },
     types: {

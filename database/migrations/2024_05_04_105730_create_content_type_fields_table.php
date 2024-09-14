@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
 
             $table->unsignedBigInteger('content_type_id');
+            $table->unsignedBigInteger('component_id')->nullable();
             $table->string('name');
             $table->string('label');
             $table->string('type');

@@ -16,19 +16,6 @@
                     <InputError :message="form.errors.name" class="mt-2" />
                 </div>
                 <div class="col-span-6 sm:col-span-4">
-                    <InputLabel for="description" value="Description" />
-                    <TextInput
-                        id="description"
-                        v-model="form.description"
-                        type="text"
-                        class="mt-1 block w-full"
-                    />
-                    <InputError
-                        :message="form.errors.description"
-                        class="mt-2"
-                    />
-                </div>
-                <div class="col-span-6 sm:col-span-4">
                     <InputLabel for="type" value="Type" />
                     <SelectInput
                         id="type"
@@ -70,7 +57,6 @@ const typeContent = ref([])
 
 const form = useForm({
     name: '',
-    description: '',
     type: ''
 })
 
@@ -106,7 +92,6 @@ const props = defineProps({
         default: () => ({
             id: null,
             name: '',
-            description: '',
             type: ''
         })
     },
@@ -120,7 +105,6 @@ onBeforeMount(() => {
     if (props.item.id !== null) {
         updateId.value = props.item.id
         form.name = props.item.name
-        form.description = props.item.description
         form.type = props.item.type
     }
 

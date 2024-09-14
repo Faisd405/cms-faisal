@@ -10,7 +10,6 @@ import Checkbox from '@/Components/Form/Checkbox.vue'
 import Radio from '@/Components/Form/Radio.vue'
 import TinyMce from '@/Components/Form/TinyMce.vue'
 import axios from '@/libs/axios'
-import { object } from 'zod'
 
 const contentTypeFields = ref({})
 
@@ -23,8 +22,7 @@ const props = defineProps({
         type: Object,
         default: () => ({
             id: null,
-            name: '',
-            description: ''
+            name: ''
         })
     },
     updateUrl: {

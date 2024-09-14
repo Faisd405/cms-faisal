@@ -8,7 +8,7 @@ use App\Models\ContentType\ContentType;
 
 class ContentTypeRepository extends BaseRepository implements BaseRepositoryInterface
 {
-    protected array $filterable = ['name', 'description', 'type'];
+    protected array $filterable = ['name', 'type'];
 
     public function __construct()
     {
@@ -20,5 +20,12 @@ class ContentTypeRepository extends BaseRepository implements BaseRepositoryInte
         $params['with'] = ['fields'];
 
         return parent::find($id, $params);
+    }
+
+    public function create(array $data)
+    {
+        $createdDate = parent::create($data);
+
+
     }
 }

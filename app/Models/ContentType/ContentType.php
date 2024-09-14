@@ -16,7 +16,6 @@ class ContentType extends BaseModel
         'updated_by',
         'deleted_by',
         'name',
-        'description',
         'type',
     ];
 

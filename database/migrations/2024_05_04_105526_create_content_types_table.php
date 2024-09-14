@@ -18,7 +18,6 @@ return new class extends Migration
             $table->unsignedBigInteger('deleted_by')->nullable();
 
             $table->string('name');
-            $table->string('description')->nullable();
             $table->string('type');
 
             $table->timestamps();

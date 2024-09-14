@@ -49,12 +49,10 @@ class DumpSeeder extends Seeder
         $contentTypes = [
             [
                 'name' => 'Page',
-                'description' => 'Page content type',
                 'type' => EnumsContentType::PAGE,
             ],
             [
                 'name' => 'Collection',
-                'description' => 'Collection content type',
                 'type' => EnumsContentType::COLLECTION,
             ],
         ];
