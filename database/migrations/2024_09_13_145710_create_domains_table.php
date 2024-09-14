@@ -11,11 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('frontends', function (Blueprint $table) {
+        Schema::create('domains', function (Blueprint $table) {
             $table->id();
 
             $table->string('name');
-            $table->string('domain')->unique();
+            $table->string('description')->nullable();
+            $table->string('domain');
+            $table->text('whitelist_domains')->nullable();
+            $table->string('locale')->default('en');
+            $table->string('timezone')->default('UTC');
+            $table->string('currency')->default('USD');
 
             $table->timestamps();
         });
@@ -26,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('frontends');
+        Schema::dropIfExists('domains');
     }
 };

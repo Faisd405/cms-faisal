@@ -71,4 +71,9 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function domains()
+    {
+        return $this->belongsToMany(Domain::class, 'domain_users', 'user_id', 'domain_id');
+    }
 }
