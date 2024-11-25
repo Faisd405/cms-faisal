@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Collection\CategoryController;
 use App\Http\Controllers\Collection\PostController;
 use App\Http\Controllers\Collection\SectionController;
 use App\Http\Controllers\ContentTypeController;
@@ -66,15 +65,6 @@ Route::middleware([
     });
 
     Route::group(['prefix' => 'collection', 'as' => 'collection.'], function () {
-        Route::group(['prefix' => 'categories', 'as' => 'categories.'], function () {
-            Route::get('/', [CategoryController::class, 'index'])->name('index');
-            Route::get('/create', [CategoryController::class, 'create'])->name('create');
-            Route::post('/', [CategoryController::class, 'store'])->name('store');
-            Route::get('/{categoryId}/edit', [CategoryController::class, 'edit'])->name('edit');
-            Route::put('/{categoryId}', [CategoryController::class, 'update'])->name('update');
-            Route::delete('/{categoryId}', [CategoryController::class, 'destroy'])->name('destroy');
-        });
-
         Route::group(['prefix' => 'sections', 'as' => 'sections.'], function () {
             Route::group(['prefix' => '{sectionId}/posts', 'as' => 'posts.'], function () {
                 Route::match(['post', 'put'], '/{postId}/content', [PostController::class, 'updateContent'])->name('update-content');

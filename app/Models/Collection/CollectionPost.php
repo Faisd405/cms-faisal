@@ -17,7 +17,6 @@ class CollectionPost extends Model
         'updated_by',
         'deleted_by',
         'section_id',
-        'category_id',
         'title',
         'slug',
         'order',
@@ -26,11 +25,6 @@ class CollectionPost extends Model
     public function section()
     {
         return $this->belongsTo(CollectionSection::class, 'section_id');
-    }
-
-    public function category()
-    {
-        return $this->belongsTo(CollectionCategory::class, 'category_id');
     }
 
     public function contentType()

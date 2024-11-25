@@ -45,12 +45,6 @@ const deleteContent = () => {
                 </h2>
                 <div class="flex gap-x-4">
                     <a
-                        :href="`/collection/categories`"
-                        class="rounded-md border border-slate-800 bg-slate-800 px-6 py-2 uppercase text-pallet-lighten transition duration-300 ease-in-out hover:bg-pallet-lighten hover:text-slate-800 dark:border-slate-800"
-                    >
-                        Category
-                    </a>
-                    <a
                         href="/collection/sections/create"
                         class="rounded-md border border-slate-800 bg-slate-800 px-6 py-2 uppercase text-pallet-lighten transition duration-300 ease-in-out hover:bg-pallet-lighten hover:text-slate-800 dark:border-slate-800"
                     >
