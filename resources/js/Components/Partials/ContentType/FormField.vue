@@ -1,8 +1,13 @@
 <template>
     <div>
         <div
-            class="flex justify-end bg-white px-4 py-2 shadow sm:rounded-tl-md sm:rounded-tr-md sm:px-6 sm:py-4"
+            class="flex items-center justify-between bg-white px-4 py-2 shadow sm:rounded-tl-md sm:rounded-tr-md sm:px-6 sm:py-4"
         >
+            <div>
+                <h4 class="text-lg font-semibold leading-6 text-gray-900">
+                    {{ props.contentType.name }} Fields
+                </h4>
+            </div>
             <PrimaryButton @click="showContentTypeFieldModal">
                 Add Field
             </PrimaryButton>
