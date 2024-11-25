@@ -66,6 +66,11 @@ class PostRepository extends BaseRepository implements BaseRepositoryInterface
             $query = $query->select('id', 'slug', 'section_id');
         }
 
+        if (isset($params['filter']['localization_id'])) {
+            $query = $query->WhereContentLocalization($params['filter']['localization_id']);
+            unset($params['filter']['localization_id']);
+        }
+
         $query = $query->whereHas('section', function ($query) use ($slugSection) {
             $query->where('slug', $slugSection);
         })->where('slug', $slug)->first();

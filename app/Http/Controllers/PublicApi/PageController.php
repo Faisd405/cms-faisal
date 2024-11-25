@@ -39,36 +39,25 @@ class PageController extends BaseController
             'locale' => 'sometimes|string',
         ]);
 
-        $getLocaleDefault = $this->languageService->findByDefault();
         if ($request->has('locale')) {
             $getLocale = $this->languageService->findByIsoCode($request->get('locale'));
         }
 
+        if (empty($getLocale)) {
+            $getLocale = $this->languageService->findByDefault();
+        }
+
         $data['item'] = null;
 
-        if (isset($getLocale)) {
-            $data['item'] = $this->service->findBySlug($slug, [
-                'filter' => [
-                    'localization_id' => $getLocale->id
-                ],
-                'append' => [
-                    'content'
-                ],
-                'frontend_service' => true
-            ]);
-        }
-
-        if (empty($data['item'])) {
-            $data['item'] = $this->service->findBySlug($slug, [
-                'filter' => [
-                    'localization_id' => $getLocaleDefault->id
-                ],
-                'append' => [
-                    'content'
-                ],
-                'frontend_service' => true
-            ]);
-        }
+        $data['item'] = $this->service->findBySlug($slug, [
+            'filter' => [
+                'localization_id' => $getLocale->id
+            ],
+            'append' => [
+                'content'
+            ],
+            'frontend_service' => true
+        ]);
 
         unset($data['item']['contentValue'], $data['item']['contentType']);
 

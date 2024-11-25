@@ -46,7 +46,7 @@ class PageRepository extends BaseRepository implements BaseRepositoryInterface
         $model = $this->prepareQuery($params);
 
         if (isset($params['filter']['localization_id'])) {
-            $model = $model->WhereContentLocalization($params['filter']['localization_id']);
+            $model = $model->whereContentLocalization($params['filter']['localization_id']);
             unset($params['filter']['localization_id']);
         }
 
@@ -73,6 +73,11 @@ class PageRepository extends BaseRepository implements BaseRepositoryInterface
             $query = $this->selectRelationData($query, $params);
         }
 
+        if (isset($params['filter']['localization_id'])) {
+            $query = $query->whereContentLocalization($params['filter']['localization_id']);
+            unset($params['filter']['localization_id']);
+        }
+
         $query = $query->where('slug', $slug)->first();
 
         if ($query && isset($params['append']) && in_array('content', $params['append'])) {
@@ -87,7 +92,7 @@ class PageRepository extends BaseRepository implements BaseRepositoryInterface
         $query = $this->prepareQuery($params);
 
         if (isset($params['filter']['localization_id'])) {
-            $query = $query->WhereContentLocalization($params['filter']['localization_id']);
+            $query = $query->whereContentLocalization($params['filter']['localization_id']);
             unset($params['filter']['localization_id']);
         }
 
