@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Collection\PostController;
 use App\Http\Controllers\Collection\SectionController;
+use App\Http\Controllers\ComponentController;
 use App\Http\Controllers\ContentTypeController;
 use App\Http\Controllers\ContentTypeFieldController;
 use App\Http\Controllers\LanguageController;
@@ -62,6 +63,16 @@ Route::middleware([
         Route::get('/{pageId}/edit', [PageController::class, 'edit'])->name('edit');
         Route::put('/{pageId}', [PageController::class, 'update'])->name('update');
         Route::delete('/{pageId}', [PageController::class, 'destroy'])->name('destroy');
+    });
+
+    Route::group(['prefix' => 'components', 'as' => 'components.'], function () {
+        Route::match(['post', 'put'], '/{componentId}/content', [ComponentController::class, 'updateContent'])->name('update-content');
+
+        Route::get('/', [ComponentController::class, 'index'])->name('index');
+        Route::post('/', [ComponentController::class, 'store'])->name('store');
+        Route::get('/{componentId}/edit', [ComponentController::class, 'edit'])->name('edit');
+        Route::put('/{componentId}', [ComponentController::class, 'update'])->name('update');
+        Route::delete('/{componentId}', [ComponentController::class, 'destroy'])->name('destroy');
     });
 
     Route::group(['prefix' => 'collection', 'as' => 'collection.'], function () {

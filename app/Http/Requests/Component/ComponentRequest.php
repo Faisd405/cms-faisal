@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Page;
+namespace App\Http\Requests\Component;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class PageRequest extends FormRequest
+class ComponentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,6 @@ class PageRequest extends FormRequest
         $rules = [
             'title' => 'required',
             'slug' => 'required',
-            'is_active' => 'nullable',
-            'published_at' => 'nullable|date',
         ];
 
         if ($this->method() === 'POST') {
