@@ -22,6 +22,8 @@
                         :item="pages"
                         :update-url="`/pages/${props.item.id}/content`"
                         :locale-language="props.locale"
+                        :list-pages="listPages"
+                        :list-collection-sections="listCollectionSections"
                     />
                 </div>
                 <div class="col-span-2">
@@ -118,6 +120,14 @@ const props = defineProps({
     locale: {
         type: Object,
         default: () => ({})
+    },
+    listPages: {
+        type: Array,
+        default: () => []
+    },
+    listCollectionSections: {
+        type: Array,
+        default: () => []
     }
 })
 

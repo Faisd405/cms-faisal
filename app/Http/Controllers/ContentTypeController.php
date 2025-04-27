@@ -10,12 +10,9 @@ use Illuminate\Http\Request;
 
 class ContentTypeController extends BaseController
 {
-    protected $service;
-
-    public function __construct(ContentTypeService $service)
-    {
-        $this->service = $service;
-    }
+    public function __construct(
+        protected ContentTypeService $service,
+    ) {}
 
     public function index(Request $request)
     {

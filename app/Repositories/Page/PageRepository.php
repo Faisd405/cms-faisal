@@ -17,6 +17,7 @@ class PageRepository extends BaseRepository implements BaseRepositoryInterface
         parent::__construct(new Page());
 
         $this->contentModel = new PageContent();
+        $this->selectable = (new Page())->getFillable();
     }
 
     public function updateContent($pageId, $content)
@@ -30,6 +31,8 @@ class PageRepository extends BaseRepository implements BaseRepositoryInterface
                 ],
                 [
                     'value' => $value['value'],
+                    'moduleable_id' => !empty($value['moduleable_id']) ? intval($value['moduleable_id']) : 0,
+                    'moduleable_type' => $value['moduleable_type'] ?? null,
                 ]
             );
         }

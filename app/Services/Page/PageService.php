@@ -41,6 +41,14 @@ class PageService extends BaseService implements BaseServiceInterface
                 } else {
                     $content['item_content'][$key]['value'] = $this->uploadFile($value['value'], 'uploads/page');
                 }
+            } else if (in_array($contentTypeField->type, ['page', 'collection'])) {
+                if ($contentTypeField->type == 'page') {
+                    $content['item_content'][$key]['moduleable_type'] = \App\Models\Page\Page::class;
+                } else if ($contentTypeField->type == 'collection') {
+                    $content['item_content'][$key]['moduleable_type'] = \App\Models\Collection\CollectionSection::class;
+                }
+
+                $content['item_content'][$key]['moduleable_id'] = $value;
             }
         }
 
@@ -62,8 +70,8 @@ class PageService extends BaseService implements BaseServiceInterface
         return $this->repository->create($data);
     }
 
-    public function findBySlug($id, $params = [])
+    public function findBySlug($slug, $params = [])
     {
-        return $this->repository->findBySlug($id, $params);
+        return $this->repository->findBySlug($slug, $params);
     }
 }

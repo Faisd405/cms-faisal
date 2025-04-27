@@ -48,7 +48,7 @@ function validateValue(value) {
         :value="modelValue"
         @change="updateValue($event.target.value)"
     >
-        <option value="">Select an option</option>
+        <option value="" disabled>Select an option</option>
         <option v-for="item in options" :key="item.value" :value="item.value">
             {{ item.text }}
         </option>

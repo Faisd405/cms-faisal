@@ -37,6 +37,16 @@ class PostService extends BaseService implements BaseServiceInterface
                     $content['item_content'][$key]['value'] = $this->uploadFile($value['value'], 'uploads/post');
                 }
             }
+
+            // if (in_array($data['type'], ['page', 'collection']) && !isset($data['moduleable_id'])) {
+            //     throw new \Exception('Moduleable id is required');
+            // }
+
+            // if ($data['type'] == 'page') {
+            //     $data['moduleable_type'] = \App\Models\Page\Page::class;
+            // } else if ($data['type'] == 'collection') {
+            //     $data['moduleable_type'] = \App\Models\Collection\CollectionSection::class;
+            // }
         }
 
         return $this->repository->updateContent($postId, $content);

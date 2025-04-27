@@ -14,6 +14,8 @@ class PageContent extends Model
         'page_id',
         'content_type_field_id',
         'localization_id',
+        'moduleable_id',
+        'moduleable_type',
         'value',
         'order',
     ];
@@ -34,6 +36,11 @@ class PageContent extends Model
     public function contentTypeField()
     {
         return $this->belongsTo(ContentTypeField::class);
+    }
+
+    public function moduleable()
+    {
+        return $this->morphTo();
     }
 
     public function getProvideAttribute()

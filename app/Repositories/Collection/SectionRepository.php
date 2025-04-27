@@ -11,6 +11,7 @@ class SectionRepository extends BaseRepository implements BaseRepositoryInterfac
     public function __construct()
     {
         parent::__construct(new CollectionSection());
+        $this->selectable = (new CollectionSection())->getFillable();
     }
 
     public function findBySlug($slug, $params = [])

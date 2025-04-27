@@ -6,6 +6,7 @@ use App\Base\BaseController;
 use App\Enums\ContentType;
 use App\Http\Requests\ContentType\ContentRequest;
 use App\Http\Requests\Page\PageRequest;
+use App\Services\Collection\SectionService;
 use App\Services\ContentType\ContentTypeService;
 use App\Services\Localization\LanguageService;
 use App\Services\Page\PageService;
@@ -13,17 +14,12 @@ use Illuminate\Http\Request;
 
 class PageController extends BaseController
 {
-    protected $service;
-
-    protected $contentTypeService;
-
-    protected $languageService;
-
-    public function __construct(PageService $service, ContentTypeService $contentTypeService, LanguageService $languageService)
-    {
-        $this->service = $service;
-        $this->contentTypeService = $contentTypeService;
-        $this->languageService = $languageService;
+    public function __construct(
+        protected PageService $service,
+        protected ContentTypeService $contentTypeService,
+        protected LanguageService $languageService,
+        protected SectionService $sectionService,
+    ) {
     }
 
     public function index(Request $request)
@@ -72,6 +68,23 @@ class PageController extends BaseController
                 'localization_id' => $data['locale']->id
             ]
         ]);
+
+        $data['listPages'] = $this->service->getAll(
+            [
+                'select' => ['id', 'title'],
+                'where' => [
+                    ['id', '!=', $pageId]
+                ]
+            ],
+            false
+        );
+
+        $data['listCollectionSections'] = $this->sectionService->getAll(
+            [
+                'select' => ['id', 'title'],
+            ],
+            false
+        );
 
         if (!$data['item']) {
             return $this->dynamicErrorResponse('404', [], 'inertia');

@@ -442,7 +442,9 @@ const typeField = [
     { text: 'Date', value: 'date' },
     { text: 'Time', value: 'time' },
     { text: 'Datetime', value: 'datetime' },
-    { text: 'WYSIWYG', value: 'wysiwyg' }
+    { text: 'WYSIWYG', value: 'wysiwyg' },
+    { text: 'Page', value: 'page' },
+    { text: 'Collection', value: 'collection' }
 ]
 
 const isHaveOptions = computed(() => {

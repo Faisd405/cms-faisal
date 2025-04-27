@@ -10,7 +10,6 @@ import Checkbox from '@/Components/Form/Checkbox.vue'
 import Radio from '@/Components/Form/Radio.vue'
 import TinyMce from '@/Components/Form/TinyMce.vue'
 import axios from '@/libs/axios'
-import { object } from 'zod'
 
 const contentTypeFields = ref({})
 
@@ -34,6 +33,14 @@ const props = defineProps({
     localeLanguage: {
         type: Object,
         default: () => ({})
+    },
+    listPages: {
+        type: Array,
+        default: () => []
+    },
+    listCollectionSections: {
+        type: Array,
+        default: () => []
     }
 })
 
@@ -211,6 +218,33 @@ onBeforeMount(() => {
                     v-model="form[itemField['name']].value"
                     class="col-span-6 md:col-span-4"
                 />
+
+                <SelectInput
+                    v-else-if="itemField.type == 'page'"
+                    id="type"
+                    v-model="form[itemField['name']].value"
+                    class="mt-1 block w-full"
+                    :options="
+                        listPages.map((item) => ({
+                            value: item.id,
+                            text: item.title
+                        }))
+                    "
+                >
+                </SelectInput>
+                <SelectInput
+                    v-else-if="itemField.type == 'collection'"
+                    id="type"
+                    v-model="form[itemField['name']].value"
+                    class="mt-1 block w-full"
+                    :options="
+                        listCollectionSections.map((item) => ({
+                            value: item.id,
+                            text: item.title
+                        }))
+                    "
+                >
+                </SelectInput>
                 <TextInput
                     v-else
                     v-model="form[itemField['name']].value"

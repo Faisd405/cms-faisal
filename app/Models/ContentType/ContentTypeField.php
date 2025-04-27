@@ -31,4 +31,9 @@ class ContentTypeField extends Model
         'is_searchable' => 'boolean',
         'options' => 'array',
     ];
+
+    public function contentType()
+    {
+        return $this->belongsTo(ContentType::class);
+    }
 }

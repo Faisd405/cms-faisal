@@ -120,6 +120,12 @@ class BaseRepository implements BaseRepositoryInterface
             $model->select($params['select']);
         }
 
+        if (!empty($params['where'])) {
+            foreach ($params['where'] as $value) {
+                $model->where(...$value);
+            }
+        }
+
         $this->applySorting($model, $params['sort'] ?? $this->sortable);
 
         if ($this->withTrashed) {

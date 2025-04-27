@@ -72,11 +72,29 @@ class Page extends Model
         foreach ($contentType->fields as $field) {
             $contentValue = $contentValues->where('content_type_field_id', $field->id)->first();
 
-            if ($contentValue) {
-                $data[$field->name] = $contentValue->value;
-            } else {
+            if (!$contentValue) {
                 $data[$field->name] = null;
+                continue;
             }
+
+            if (in_array($field->type, ['page', 'collection'])) {
+                if ($contentValue->moduleable_type === \App\Models\Page\Page::class) {
+                    $data[$field->name] = $contentValue->moduleable();
+                    $data[$field->name]->content = $data[$field->name]->value;
+                    unset($data['contentValue'], $data['contentType']);
+                    continue;
+                } else if ($contentValue->moduleable_type === \App\Models\Collection\CollectionSection::class) {
+                    $data[$field->name] = $contentValue->moduleable->load('posts');
+                    foreach ($data[$field->name]->posts as $post) {
+                        $post->content = $post->value;
+                        unset($post['contentValue'], $post['contentType']);
+                    }
+
+                    continue;
+                }
+            }
+
+            $data[$field->name] = $contentValue->value;
         }
 
         return $data;

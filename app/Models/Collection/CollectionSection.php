@@ -39,6 +39,6 @@ class CollectionSection extends Model
 
     public function posts()
     {
-        return $this->hasMany(CollectionPost::class);
+        return $this->hasMany(CollectionPost::class, 'section_id');
     }
 }

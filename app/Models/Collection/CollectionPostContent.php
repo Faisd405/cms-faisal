@@ -34,6 +34,11 @@ class CollectionPostContent extends Model
         return $this->belongsTo(ContentTypeField::class, 'content_type_field_id');
     }
 
+    public function moduleable()
+    {
+        return $this->morphTo();
+    }
+
     public function getProvideAttribute()
     {
         $provide = [];
