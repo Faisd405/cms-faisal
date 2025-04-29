@@ -54,7 +54,8 @@ class Page extends Model
     public function scopeWhereContentLocalization($query, $localizationId)
     {
         return $query->with(['contentValue' => function ($query) use ($localizationId) {
-            $query->where('localization_id', $localizationId);
+            $query->where('localization_id', $localizationId)
+                ->orWhere('localization_id', null);
         }]);
     }
 

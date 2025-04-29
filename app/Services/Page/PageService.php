@@ -33,6 +33,10 @@ class PageService extends BaseService implements BaseServiceInterface
         foreach ($content['item_content'] as $key => $value) {
             $contentTypeField = $this->contentFieldRepository->find($value['content_type_field_id']);
 
+            if ($contentTypeField['is_localizable']) {
+                $content['item_content'][$key]['localization_id'] = $content['localeLanguage'];
+            }
+
             if ($contentTypeField->type === 'file') {
                 $pageContent = $this->repository->getOneContent($pageId, $value['content_type_field_id']);
 
@@ -51,6 +55,8 @@ class PageService extends BaseService implements BaseServiceInterface
                 $content['item_content'][$key]['moduleable_id'] = $value;
             }
         }
+
+        unset($content['item_content']['localization_id']);
 
         return $this->repository->updateContent($pageId, $content);
     }

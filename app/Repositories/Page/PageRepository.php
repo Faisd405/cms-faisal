@@ -27,7 +27,7 @@ class PageRepository extends BaseRepository implements BaseRepositoryInterface
                 [
                     'page_id' => $pageId,
                     'content_type_field_id' => $value['content_type_field_id'],
-                    'localization_id' => $content['localeLanguage'],
+                    'localization_id' => $value['localization_id'] ?? null,
                 ],
                 [
                     'value' => $value['value'],

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('page_id');
             $table->unsignedBigInteger('content_type_field_id');
-            $table->unsignedBigInteger('localization_id');
+            $table->unsignedBigInteger('localization_id')->nullable();
             $table->unsignedBigInteger('moduleable_id')->nullable();
             $table->string('moduleable_type')->nullable();
 

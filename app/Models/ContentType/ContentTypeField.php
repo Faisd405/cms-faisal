@@ -19,6 +19,7 @@ class ContentTypeField extends Model
         'placeholder',
         'default_value',
         'order',
+        'is_localizable',
         'is_required',
         'is_unique',
         'is_searchable',
@@ -26,6 +27,7 @@ class ContentTypeField extends Model
 
     protected $casts = [
         'validation' => 'array',
+        'is_localizable' => 'boolean',
         'is_required' => 'boolean',
         'is_unique' => 'boolean',
         'is_searchable' => 'boolean',
