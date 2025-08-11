@@ -11,9 +11,7 @@ class ValidateLanguage
 {
     public function __construct(
         protected LanguageService $languageService
-    )
-    {
-
+    ) {
     }
 
     /**
@@ -23,19 +21,28 @@ class ValidateLanguage
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $request->validate([
-            'locale' => 'sometimes|string',
-        ]);
+        // Only validate for API routes that might have locale parameter
+        if ($request->is('api/*') && $request->has('locale')) {
+            $request->validate([
+                'locale' => 'string|size:2|alpha|lowercase',
+            ]);
 
-        if ($request->has('locale')) {
-            $getLocale = $this->languageService->findByIsoCode($request->get('locale'));
+            $locale = $this->languageService->findByIsoCode($request->get('locale'));
+
+            if (!$locale) {
+                // For API routes, return JSON error if locale is invalid
+                if ($request->expectsJson() || $request->is('api/*')) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Invalid locale provided',
+                        'error' => [
+                            'code' => 'INVALID_LOCALE',
+                            'details' => "Locale '{$request->get('locale')}' is not supported"
+                        ]
+                    ], 400);
+                }
+            }
         }
-
-        if (empty($getLocale)) {
-            $getLocale = $this->languageService->findByDefault();
-        }
-
-        app()->setLocale($getLocale->iso_code);
 
         return $next($request);
     }

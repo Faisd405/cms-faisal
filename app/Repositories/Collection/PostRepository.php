@@ -52,9 +52,30 @@ class PostRepository extends BaseRepository implements BaseRepositoryInterface
 
     public function getAllBySectionSlug($slug, $params = [])
     {
-        return $this->model->whereHas('section', function ($query) use ($slug) {
+        $query = $this->prepareQuery($params);
+
+        if (isset($params['frontend_service']) && $params['frontend_service']) {
+            $query = $this->selectRelationData($query, $params);
+        }
+
+        if (isset($params['filter']['localization_id'])) {
+            $query = $query->whereContentLocalization($params['filter']['localization_id']);
+            unset($params['filter']['localization_id']);
+        }
+
+        $query = $query->whereHas('section', function ($query) use ($slug) {
             $query->where('slug', $slug);
-        })->get();
+        });
+
+        if (isset($params['filter']['status'])) {
+            $query = $query->where('status', $params['filter']['status']);
+        }
+
+        $withPaginate = $params['paginate'] ?? true;
+
+        return $withPaginate
+            ? $query->paginate($params['per_page'] ?? 15)
+            : $query->get();
     }
 
     public function findBySlug($slugSection, $slug, $params = [])

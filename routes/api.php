@@ -7,13 +7,22 @@ use App\Http\Controllers\PublicApi\LanguageController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-// Public API
-Route::get('/pages', [PageController::class, 'index'])->name('pages.index');
-Route::get('/pages/{slug}', [PageController::class, 'show'])->name('pages.show');
+// Public API with rate limiting
+Route::middleware(['throttle:200,1'])->group(function () {
 
-Route::get('/collection/sections', [SectionController::class, 'index'])->name('sections.index');
-Route::get('/collection/sections/{sectionSlug}', [SectionController::class, 'show'])->name('sections.show');
-Route::get('/collection/sections/{sectionSlug}/posts', [SectionController::class, 'posts'])->name('sections.posts');
-Route::get('/collection/sections/{sectionSlug}/posts/{postSlug}', [SectionController::class, 'postShow'])->name('sections.posts.show');
+    // Pages API
+    Route::get('/pages', [PageController::class, 'index'])->name('api.pages.index');
+    Route::get('/pages/{slug}', [PageController::class, 'show'])->name('api.pages.show');
 
-Route::get('/languages', [LanguageController::class, 'index'])->name('languages.index');
+    // Collections API
+    Route::prefix('collection')->name('api.collection.')->group(function () {
+        Route::get('/sections', [SectionController::class, 'index'])->name('sections.index');
+        Route::get('/sections/{sectionSlug}', [SectionController::class, 'show'])->name('sections.show');
+        Route::get('/sections/{sectionSlug}/posts', [SectionController::class, 'posts'])->name('sections.posts');
+        Route::get('/sections/{sectionSlug}/posts/{postSlug}', [SectionController::class, 'postShow'])->name('sections.posts.show');
+    });
+
+    // Languages API
+    Route::get('/languages', [LanguageController::class, 'index'])->name('api.languages.index');
+
+});

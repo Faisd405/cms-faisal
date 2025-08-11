@@ -52,9 +52,9 @@ class PostService extends BaseService implements BaseServiceInterface
         return $this->repository->updateContent($postId, $content);
     }
 
-    public function getAllBySectionSlug($slug)
+    public function getAllBySectionSlug($slug, $params = [])
     {
-        return $this->repository->getAllBySectionSlug($slug);
+        return $this->repository->getAllBySectionSlug($slug, $params);
     }
 
     public function findBySlug($slugSection, $slug, $params = [])
