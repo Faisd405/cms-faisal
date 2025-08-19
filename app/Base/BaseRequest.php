@@ -2,14 +2,11 @@
 
 namespace App\Base;
 
-use App\Helpers\ResponseHelper;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
 
 abstract class BaseRequest extends FormRequest
 {
-    use ResponseHelper;
-
     /**
      * Get the validation rules that apply to the request.
      *
